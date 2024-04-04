@@ -10,6 +10,7 @@ import calendar from '../src/assets/images/calendar.png';
 import bride from '../src/assets/images/Bride.jpg';
 import hands from '../src/assets/images/hands.jpg';
 import wood from '../src/assets/images/wood.jpg';
+import chatBtn from '../src/assets/images/ChatBtn.png';
 import { AuthCredential, signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import * as firebase from 'firebase/app';
@@ -110,77 +111,45 @@ const [userEmail, setUserEmail] = useState(''); // State to store user's email
                 <Image source = {calendar} style={styles.calendarImg}/>
         </View>
 
-
-        <View style={styles.contentButtons}>
-
-        <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.scrollContainer} 
-        >
-        {data.map((buttonData, index) => (
-            <TouchableOpacity
-            key={index}
-            style={[
-                styles.button,
-                index === 0 && { width: 'auto' },
-                selectedButton === index && { backgroundColor: '#1563FF' }, // Change color when selected
-            ]}
-            onPress={() => handlePress(index)}
-            >
-            {buttonData.image && <Image source={buttonData.image} style={styles.buttonImage} />}
-            <Text style={styles.buttonText}>
-                {buttonData.text}
-            </Text>
+        <View style={styles.ChatsView}>
+            <TouchableOpacity style={styles.ChatsContainer}>
+                <Image /*source={}*/ style={styles.ChatImage}/>
             </TouchableOpacity>
-        ))}
-        </ScrollView>
         </View>
 
-        <View style={[styles.filter, {paddingLeft: responsiveWidth(5.5), paddingEnd: responsiveWidth(6.3)}]}>
-    
-                <Text style={styles.filterType}>Fotografos</Text>
-                <Text style={styles.filterButton}>Filtrar </Text>
-        </View>
+        <View style={styles.ChatsText}><Text style={[{color: '#818181', fontFamily:'MPLUS1p'}]}>Chats Recentes...</Text></View>
 
-        <View style={styles.redirectBtnsView}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.redirectBtnsContainer}>
-            <TouchableOpacity style={[styles.allPicturesBtn, styles.firstBtnMargin]}>
-              <Text style={styles.numPics}>150</Text>
-              <Text style={styles.numPics}>Fotos</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.allPicturesBtn}>
-              <Text style={styles.numPics}>150</Text>
-              <Text style={styles.numPics}>Fotos</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.allPicturesBtn, styles.lastBtnMargin]}>
-              <Text style={styles.numPics}>200</Text>
-              <Text style={styles.numPics}>Comentários</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
+        <View style={styles.WidgetsContainer}>
+            <View style={styles.WidgetsView}>
+                <View style={styles.ToDoHeader}>
+                    <Text style={styles.ToDoTitle}>Pagamentos</Text>
+                    <TouchableOpacity style={styles.TodoAddBtn}><Text style={styles.TodoAddText} onPress={() => alert('Popup appears')}>+</Text></TouchableOpacity>
+                </View>
+                <View style={styles.ToDoContainer}>
+                    <TouchableOpacity style={styles.ToDoCheckBtn}></TouchableOpacity>
+                    <Text style={styles.ToDoData}>Pagamento 1</Text>
+                </View>
+                <View style={styles.ToDoContainer}>
+                    <TouchableOpacity style={styles.ToDoCheckBtn}></TouchableOpacity>
+                    <Text style={styles.ToDoData}>Pagamento 1</Text>
+                </View>
+                <View style={styles.ToDoContainer}>
+                    <TouchableOpacity style={styles.ToDoCheckBtn}></TouchableOpacity>
+                    <Text style={styles.ToDoData}>Pagamento 1</Text>
+                </View>
+                <View style={styles.ToDoContainer}>
+                    <TouchableOpacity style={styles.ToDoCheckBtn}></TouchableOpacity>
+                    <Text style={styles.ToDoData}>Pagamento 1</Text>
+                </View>
 
-        <View style={styles.ImagesContainer}>
-            <View style={styles.ImagesView}>
-                <Image source = {bride} style={styles.Images}/>
-            </View>
-        </View>
-
-        <View style={styles.ImagesContainer}>
-            <View style={styles.ImagesView}>
-                <Image source = {hands} style={styles.Images}/>
-            </View>
-        </View>
-
-        <View style={styles.ImagesContainer}>
-            <View style={styles.ImagesView}>
-                <Image source = {wood} style={styles.Images}/>
+                
             </View>
         </View>
       </ScrollView>
+
+        <TouchableOpacity style={styles.chatBtn} onPress={() => navigation.navigate("Default")}>
+            <Image source = {chatBtn} style={styles.chatBtnImg}/>
+        </TouchableOpacity>
     </View>
   );
 }
@@ -193,6 +162,27 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#101014',
+    },
+
+    chatBtn: {
+        position: 'absolute',
+        bottom: responsiveWidth(10),
+        right: responsiveWidth(8),
+        backgroundColor: '#1D1E26',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: responsiveWidth(16),
+        height: responsiveWidth(16),
+        resizeMode: "contain",
+        borderRadius: 100,
+       
+    },
+
+    chatBtnImg: {
+       width: responsiveWidth(9),
+       resizeMode: "contain",
+       marginTop: responsiveWidth(1),
+       marginRight: responsiveWidth(0.5),
     },
 
     headerBtns: {
@@ -299,127 +289,90 @@ export const styles = StyleSheet.create({
         resizeMode: "contain",
     },
 
-    contentButtons: {
-        flex: 0.25,
-        marginBottom: responsiveWidth(5),
-    },
-
-    scrollContainer: {
-        flexDirection: 'row',
+    ChatsText:{
         flex: 1,
-        paddingLeft: responsiveWidth(3.8),
-    },
-
-    button: {
-        backgroundColor: '#1D1E26',
-        borderRadius: 100,
-        paddingHorizontal: 12, // Adjusted the padding to be smaller
-        marginHorizontal: responsiveWidth(0.2),
-        height: responsiveHeight(7),
-        width: buttonWidth,
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row',
-        gap: responsiveWidth(2),
-        alignSelf: 'flex-start', // Align each button to the start of the ScrollView
-
+        marginBottom: responsiveWidth(3),
     },
 
-    buttonText: {
-        color: 'white',
-        fontSize: responsiveFontSize(2.2),
-        fontFamily: 'MPLUS1p',
-    },
+   
 
-    buttonImage: {
-    width: responsiveWidth(4.5), // Set the width of the image
-    resizeMode: "contain",
-    },
+   
 
-    filter: {
-        flex:0.2,
-        flexDirection: "row",
-        alignItems: 'center',
-        gap: responsiveWidth(1.5),
-        marginTop: responsiveWidth(4),
-        marginBottom: responsiveFontSize(1),
-    },
 
-    filterType: {
-        flex: 1,
-        textAlign:'left',
-        fontFamily: 'MPLUS1p',
-        color: 'white',
-        fontSize: responsiveFontSize(2.2),
-    },
-
-    filterButton: {
-        flex: 1,
-        textAlign:'left',
-        fontFamily: 'MPLUS1p',
-        color: '#818181',
-        textAlign:'right',
-        fontSize: responsiveFontSize(2.2),
-    },
-
-    redirectBtnsView: {
-        flex: 0.2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: responsiveWidth(13),
-    },
-
-    redirectBtnsContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    allPicturesBtn: {
-        backgroundColor: '#1D1E26',
-        borderRadius: 45,
-        marginHorizontal: responsiveWidth(0.5),
-        height: responsiveWidth(40),
-        width: responsiveWidth(45),
-        justifyContent: 'center',
-        paddingLeft: responsiveWidth(10),
-
-    },
-
-    firstBtnMargin: {
-        marginLeft: responsiveWidth(-15), // Adjusted margin
-    },
-
-    lastBtnMargin: {
-        marginRight: responsiveWidth(-15), // Adjusted margin
-    },
-
-    numPics: {
-        // ... (previous styles)
-        textAlign:'left',
-        fontFamily: 'NanumMyeongjoBold',
-        color: 'white',
-        fontSize: responsiveFontSize(3),
-    },
-
-    ImagesContainer: {
+    WidgetsContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: responsiveWidth(13),
+        
     },
 
-    ImagesView: {
-        width: responsiveWidth(93), // Ajuste conforme necessário
+    WidgetsView: {
+        width: responsiveWidth(90), // Ajuste conforme necessário
         height: responsiveWidth(60), // Ajuste conforme necessário
         borderRadius: 60,
         overflow: 'hidden', // Para garantir que a imagem respeite a borda arredondada
+        backgroundColor: '#1D1E26',
+        paddingBottom: responsiveWidth(3),
+        paddingTop: responsiveWidth(2),
     },
 
-    Images: {
-        flex: 1,
-        width: undefined,
-        height: undefined,
-        resizeMode: 'cover',
+    ToDoHeader: {
+        flex:1.3,
+        flexDirection: "row",
+        alignItems: 'center',
+        //justifyContent: "flex-end",
+        marginBottom: responsiveWidth(3),
     },
 
-});
+    ToDoTitle: {
+        color: 'white',
+        fontFamily: 'NanumMyeongjoBold',
+        fontSize: responsiveFontSize(3),
+        paddingLeft: responsiveWidth(8),
+    },
+
+    TodoAddBtn: {
+        backgroundColor: '#101014',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: responsiveWidth(10),
+        height: responsiveWidth(10),
+        resizeMode: "contain",
+        borderRadius: 100,
+        marginLeft: responsiveWidth(30),
+    },
+
+    TodoAddText: {
+        color: 'white',
+        fontFamily: 'NanumMyeongjo',
+        fontSize: responsiveFontSize(3),
+        paddingTop: responsiveWidth(0.5),
+    },
+
+    ToDoContainer: {
+        flex:0.7,
+        flexDirection: "row",
+        alignItems: 'flex-start',
+        //justifyContent: "flex-end",
+        paddingLeft: responsiveWidth(16),
+    },
+
+    ToDoCheckBtn: {
+        borderWidth: 2,
+        width: responsiveWidth(6),
+        height: responsiveWidth(6),
+        borderRadius: 100,
+        borderColor: 'white',
+    },
+
+    ToDoData: {
+        color: 'white',
+        fontFamily: 'MPLUS1p',
+        fontSize: responsiveFontSize(2),
+        paddingLeft: responsiveWidth(5),
+    },
+
+    });

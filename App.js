@@ -22,6 +22,7 @@ export default function App() {
       <Stack.Navigator initialRouteName='Home' screenOptions={({ route, navigation }) => ({ headerShown: false })}>
 
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Default" component={Default} />
 
      </Stack.Navigator>
     </NavigationContainer>
