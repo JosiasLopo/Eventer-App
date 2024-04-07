@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput } from 'react-native'
+import { Text, View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, Keyboard } from 'react-native'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Gesture, GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,8 +12,18 @@ export default class TodoModal extends Component {
     toggleTodoCompleted = (index) => {
         let list = this.props.list;
         list.todos[index].completed = !list.todos[index].completed;
+ 
+        this.props.updateList(list);
+    }
+
+    addTodo = () => {  
+        let list = this.props.list;
+        list.todos.push({ title: this.state.newTodo, completed: false });
 
         this.props.updateList(list);
+        this.setState({newTodo: ""});
+
+        Keyboard.dismiss(); // Dismiss the keyboard after adding a new todo
     }
 
     renderTodo = (todo, index) => {
@@ -73,11 +83,11 @@ export default class TodoModal extends Component {
                 </View>
 
                 <View style={[styles.section, styles.footer]}>
-                    <TextInput style={[styles.input, {borderBlockColor: list.color}]} />
-                    <TouchableOpacity style={[styles.addTodo, {backgroundColor: list.color}]}>
+                    <TextInput style={[styles.input, {borderBlockColor: list.color}]} onChangeText={text => this.setState({newTodo: text})} value={this.state.newTodo}/>
+                    <TouchableOpacity style={[styles.addTodo, {backgroundColor: list.color}]} onPress={() => this.addTodo()} >
                         <AntDesign name="plus" size={16} color="white" />
                     </TouchableOpacity>
-                </View> 
+                </View>
 
             </SafeAreaView>
             </KeyboardAvoidingView>

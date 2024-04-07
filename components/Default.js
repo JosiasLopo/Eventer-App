@@ -1,17 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, TextInput, StyleSheet, Text, Button, View, FlatList, Modal, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 import { tempData } from '../todoData/tempData';
-import TodoList from '../components/TodoList'; // Import TodoList component
+import TodoList from '../components/TodoList';
 import AddListModal from "../components/AddListModal";
+import firebase, { auth } from "../config/firebase";
+
 
 export default function Default({ navigation }) {
   const insets = useSafeAreaInsets();
   const [addTodoVisible, setAddTodoVisible] = useState(false);
-  const [lists, setLists] = useState(tempData); // Use useState to manage lists state
+  const [lists, setLists] = useState(tempData);
+  const [userId, setUserId] = useState(null);
+
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
+
 
   const [loaded] = useFonts({
     NanumMyeongjo: require('../src/assets/fonts/NanumMyeongjo-Regular.ttf'),
@@ -38,7 +57,7 @@ export default function Default({ navigation }) {
   };
 
   const addList = (list) => {
-    setState({ lists: [...this.state.lists, { ...list, id: this.state.lists.length + 1, todos: [] }] });
+    setLists([...lists, { ...list, id: lists.length + 1, todos: [] }]);
   };
 
   const updateList = (list) => {
@@ -47,13 +66,17 @@ export default function Default({ navigation }) {
         return item.id === list.id ? list : item;
       })
     );
-  }
+  };
 
   return (
     <View style={[styles.container,{paddingTop: insets.top + responsiveWidth(5), paddingBottom: insets.bottom}]}>
       <Modal animationType="slide" visible={addTodoVisible} onRequestClose={toggleAddTodoModal}>
         <AddListModal closeModal={toggleAddTodoModal} addList={addList}/>
       </Modal>
+
+      <View>
+          <Text>User: {userId}</Text>
+      </View>
 
       <View style={{flexDirection: "row"}}>
         <View style={styles.divider} />
@@ -74,7 +97,8 @@ export default function Default({ navigation }) {
           keyExtractor={item => item.name}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => renderList(item)} // Change this.renderList to renderList
+          renderItem={({ item }) => renderList(item)}
+          keyboardShouldPersistTaps="always"
         />
       </View>
     </View>
