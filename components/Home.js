@@ -119,7 +119,7 @@ const [userEmail, setUserEmail] = useState(''); // State to store user's email
 
         <View style={styles.ChatsText}><Text style={[{color: '#818181', fontFamily:'MPLUS1p'}]}>Chats Recentes...</Text></View>
 
-        <View style={styles.WidgetsContainer}>
+        <TouchableOpacity style={styles.WidgetsContainer} onPress={() => navigation.navigate("Todo")}>
             <View style={styles.WidgetsView}>
                 <View style={styles.ToDoHeader}>
                     <Text style={styles.ToDoTitle}>Pagamentos</Text>
@@ -144,7 +144,7 @@ const [userEmail, setUserEmail] = useState(''); // State to store user's email
 
                 
             </View>
-        </View>
+        </TouchableOpacity>
       </ScrollView>
 
         <TouchableOpacity style={styles.chatBtn} onPress={() => navigation.navigate("Default")}>

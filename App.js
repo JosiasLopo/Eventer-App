@@ -6,6 +6,7 @@ import Regist from "./components/Regist";
 import Hall from "./components/Hall";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Todo from "./components/Todo";
 import Default from "./components/Default";
 import { StatusBar } from "expo-status-bar";
 import useAuth from "./hooks/useAuth";
@@ -23,6 +24,7 @@ export default function App() {
 
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Default" component={Default} />
+        <Stack.Screen name="Todo" component={Todo} />
 
      </Stack.Navigator>
     </NavigationContainer>
