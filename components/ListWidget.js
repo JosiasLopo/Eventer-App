@@ -57,19 +57,15 @@ const List = () => {
         return (
             <View style={[styles.todoContainer, { borderRadius:"100%"}]}>
             <TouchableOpacity onPress={() => toggleDone(item.id, item.done)} style={styles.todo}>
-                {item.done ? <Ionicons name="checkmark-circle" size={32} color="green"  /> : <Ionicons name="radio-button-off" size={32} color="white" />}
+                {item.done ? <Ionicons name="checkmark-circle" size={responsiveWidth(7)} color="green"  /> : <Ionicons name="radio-button-off" size={responsiveWidth(7)} color="white" />}
                 <Text style={styles.todoText}>{item.title}</Text>
             </TouchableOpacity>
-            <Entypo name="trash" size={20} color="#FF6060" onPress={() => deleteItem(item.id)}  />
             </View>
         );
     };
 
     return (
         <View style={styles.container}>
-        <View style={styles.containerTodo}>
-
-            
 
             <View  style={styles.content}>
             {todos.length > 0 && (
@@ -80,20 +76,7 @@ const List = () => {
                     // removeClippedSubviews={true}
                 />
             )}
-            </View>
-
-            <View style={styles.form}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Start typing..."
-                    placeholderTextColor="gray"
-                    onChangeText={(text) => setTodo(text)}
-                    value={todo}
-                />
-                <TouchableOpacity style={styles.ButtonAdd} onPress={addTodo} disabled={todo === ''}>
-                    <Text style={styles.TextAdd}>Add Todo</Text>
-            </TouchableOpacity>
-            </View>
+        
         </View>
         </View>
     );
@@ -160,6 +143,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
+        marginBottom: responsiveWidth(1.7),
 
     },
     todoText: {
@@ -173,9 +157,7 @@ const styles = StyleSheet.create({
     todoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 10,
-        marginVertical: 4,
-        
+        marginLeft: responsiveWidth(10),
     },
 
     Flat: {

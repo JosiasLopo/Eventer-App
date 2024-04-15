@@ -10,38 +10,45 @@ import Todo from "./components/Todo";
 import Default from "./components/Default";
 import { StatusBar } from "expo-status-bar";
 import useAuth from "./hooks/useAuth";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Menu from './components/Menu'; // Import your Menu component
 
+const Drawer = createDrawerNavigator();
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const {user} = useAuth();
-  if (user){
-     return (
+  const { user } = useAuth();
+  return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <Stack.Navigator initialRouteName='Home' screenOptions={({ route, navigation }) => ({ headerShown: false })}>
-
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Default" component={Default} />
-        <Stack.Screen name="Todo" component={Todo} />
-
-     </Stack.Navigator>
-    </NavigationContainer>
-  );
-  } else {
-  return (
-      <NavigationContainer>
-        <StatusBar style="light" />
+      {user ? (
+        <Drawer.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            drawerLabel: 'Home',
+            headerShown: false,
+            overlayColor: 'rgba(0, 0, 0, 0.5)',
+            drawerStyle: {
+              backgroundColor: '#1D1E26',
+            },
+            drawerItemStyle: {
+              backgroundColor: 'transparent', // Remove background color
+              height: 50, // Adjust item height if needed
+            },
+          }}
+        >
+          <Drawer.Screen name="Home" component={Home} />
+          <Drawer.Screen name="Todo" component={Todo} options={{ drawerLabel: () => null }} options={{ drawerItemStyle: { height: 0 }}}/>
+          <Drawer.Screen name="Default" component={Default} options={{ drawerLabel: () => null }} options={{drawerItemStyle: { height: 0 }}}/>
+        </Drawer.Navigator>
+      ) : (
         <Stack.Navigator initialRouteName='Hall' screenOptions={({ route, navigation }) => ({ headerShown: false })}>
-
           <Stack.Screen name="Regist" component={Regist} />
           <Stack.Screen name="Hall" component={Hall} />
           <Stack.Screen name="Login" component={Login} />
-
-      </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
-
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
+  );
 }
