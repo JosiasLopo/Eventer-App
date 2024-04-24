@@ -49,7 +49,7 @@ export default function Hall({ navigation }) {
         </TouchableOpacity>
 
         <View style={styles.googleRegisBtn}>
-          <TouchableOpacity style={styles.googleBtn}>
+          <TouchableOpacity style={styles.googleBtn} onPress={() => navigation.navigate('Home')}>
             <Image source = {GLogo} style={styles.googleBtnLogo}/>
             <Text style={styles.googleBtnTxt}>Continua com Google</Text>
           </TouchableOpacity>

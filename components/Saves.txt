@@ -1,0 +1,6 @@
+<Text onPress={() => navigation.navigate('Gemini')} style={{color:"white"}}>
+              Macacos
+          </Text>
+          <Text onPress={() => navigation.navigate('ChatGpt')} style={{color:"white"}}>
+              Macacos1
+          </Text>
