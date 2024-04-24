@@ -19,8 +19,12 @@ import {
 import Gemini1 from "../src/assets/images/GeminiIcon.png";
 import Seta2 from "../src/assets/images/arrowLeft.png";
 import SendIcon from "../src/assets/images/SendIcon.png";
+import { useNavigation } from '@react-navigation/native';
 
 export default function Gemini() {
+
+  const navigation = useNavigation();
+
   const [chat, setChat] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -85,7 +89,7 @@ export default function Gemini() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View  style={styles.btnArrow}>
+          <View style={styles.btnArrow} onPress={() => navigation.navigate("Home")}>
             <Image source = {Seta2} style={styles.btnArrowImg}/>
           </View>  
         <View

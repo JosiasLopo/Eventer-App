@@ -4,45 +4,59 @@ import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'fireb
 import { FIRESTORE_DB } from '../config/firebase';
 import { Ionicons, Entypo } from '@expo/vector-icons'; // Certifique-se de importar esses ícones corretamente
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
+import { getAuth, onAuthStateChanged, currentUser } from 'firebase/auth'; // Import Firebase Auth
+
 
 const List = () => {
     const [todo, setTodo] = useState('');
     const [todos, setTodos] = useState([]);
+const [user, setUser] = useState(null); // State to store user information
 
-    const addTodo = async () => {
-        try {
-            const docRef = await addDoc(collection(FIRESTORE_DB, 'todos'), {
-                title: todo,
-                done: false
-            });
-            setTodo('');
-            console.log('Document written with ID: ', docRef.id);
-        } catch (e) {
-            console.error('Error adding document: ', e);
-        }
-    };
+  useEffect(() => {
+    const auth = getAuth(); // Get Auth instance
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // Update user state on auth change
+    });
 
-    useEffect(() => {
-        const todoRef = collection(FIRESTORE_DB, 'todos');
+    return () => unsubscribe(); // Clean up listener on unmount
+  }, []);
 
-        const subscriber = onSnapshot(todoRef, {
-            next: (snapshot) => {
-                const todos = [];
-                snapshot.docs.forEach((doc) => {
-                    todos.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
-                });
-
-                setTodos(todos);
-            }
+  const addTodo = async () => {
+    if (user) { // Check if user is logged in
+      try {
+        const docRef = await addDoc(collection(FIRESTORE_DB, 'todos'), {
+          title: todo,
+          done: false,
+          email: user.email // Add user's email
         });
+        setTodo('');
+        console.log('Document written with ID: ', docRef.id);
+      } catch (e) {
+        console.error('Error adding document: ', e);
+      }
+    } else {
+      // Handle case where no user is logged in (e.g., show an error message)
+    }
+  };
 
-        // Unsubscribe from events when no longer in use
-        return () => subscriber();
-    }, []);
+  useEffect(() => {
+    const todoRef = collection(FIRESTORE_DB, 'todos');
 
+    const unsubscribe = onSnapshot(todoRef, (snapshot) => {
+      const todos = [];
+      snapshot.docs.forEach((doc) => {
+        if (doc.data().email === user?.email) { // Filter by email
+          todos.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        }
+      });
+      setTodos(todos);
+    });
+
+    return () => unsubscribe();
+  }, [user]); // Include user in d
     const toggleDone = async (itemId, done) => {
         const todoRef = doc(FIRESTORE_DB, 'todos', itemId);
         await updateDoc(todoRef, { done: !done });
