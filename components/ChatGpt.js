@@ -1,210 +1,250 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, KeyboardAvoidingView } from 'react-native';
-import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Ensure you have installed this package
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { responsiveWidth, responsiveScreenHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  TextInput,
+  View,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
+} from "react-native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ChatBubble from "./ChatBubble";
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from "react-native-responsive-dimensions";
+import GptIcon from "../src/assets/images/GptIcon.png";
+import Seta2 from "../src/assets/images/arrowLeft.png";
+import SendIcon from "../src/assets/images/SendIcon.png";
+import { useNavigation } from "@react-navigation/native";
 
+export default function ChatGpt() {
+  const navigation = useNavigation();
 
-
-const TrailScreen = () => {
   const [messages, setMessages] = useState([]);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
 
   useEffect(() => {
-       // Load messages from AsyncStorage when the component mounts
-       const loadMessages = async () => {
-         try {
-           const storedMessages = await AsyncStorage.getItem('messages');
-           if (storedMessages) setMessages(JSON.parse(storedMessages));
-         } catch (error) {
-           console.error('Failed to load messages:', error);
-         }
-       };
-    
-       loadMessages();
-     }, []);
-
-     const sendMessage = async () => {
-      const userMessage = { role: 'user', content: inputText };
-      setInputText(''); // Clear input field
-      
+    // Load messages from AsyncStorage when the component mounts
+    const loadMessages = async () => {
       try {
-        const response = await axios.post(
-          'https://api.openai.com/v1/chat/completions',
-          {
-            model: 'gpt-3.5-turbo',
-            messages: [userMessage],
-            temperature: 0.5
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer sk-proj-Z1Ajya69IBOyKQA0mdfMT3BlbkFJSuZIGj78evtVB9VRpwFF', // Note: Store API keys securely and not in code directly
-            },
-          }
-        );
-        const botMessage = {
-          role: 'bot',
-          content: response.data.choices[0].message.content,
-        };
-    
-        const updatedMessages = [...messages, userMessage, botMessage]; // Append new messages to existing ones
-        setMessages(updatedMessages); // Update the state with all messages
-        saveMessages(updatedMessages); // Save updated messages to AsyncStorage
+        const storedMessages = await AsyncStorage.getItem("messages");
+        if (storedMessages) setMessages(JSON.parse(storedMessages));
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error("Failed to load messages:", error);
       }
     };
-    
 
-   // Helper function to save messages to AsyncStorage
- const saveMessages = async (updatedMessages) => {
-     try {
-       await AsyncStorage.setItem('messages', JSON.stringify(updatedMessages));
-     } catch (error) {
-       console.error('Failed to save messages:', error);
-     }
-   };
-  
-   const clearMessages = async () => {
-    // Ask for confirmation before deleting messages
-    Alert.alert(
-      "Confirm Deletion",
-      "Are you sure you want to delete all messages?",
-      [
+    loadMessages();
+  }, []);
+
+  const sendMessage = async () => {
+    const userMessage = { role: "user", content: inputText };
+    setInputText(""); // Clear input field
+
+    try {
+      const response = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
         {
-          text: "Cancel",
-          onPress: () => console.log("Deletion cancelled."),
-          style: "cancel"
+          model: "gpt-3.5-turbo",
+          messages: [userMessage],
+          temperature: 0.5,
         },
-        { text: "OK", onPress: async () => {
-            try {
-              await AsyncStorage.removeItem('messages');
-              setMessages([]);
-            } catch (error) {
-              console.error('Error clearing messages:', error);
-            }
-          } 
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer sk-proj-Z1Ajya69IBOyKQA0mdfMT3BlbkFJSuZIGj78evtVB9VRpwFF", // Replace with your OpenAI API key
+          },
         }
-      ],
-      { cancelable: true }
-    );
+      );
+      const botMessage = {
+        role: "bot",
+        content: response.data.choices[0].message.content,
+      };
+
+      const updatedMessages = [...messages, userMessage, botMessage]; // Append new messages
+      setMessages(updatedMessages); // Update state with all messages
+      saveMessages(updatedMessages); // Save updated messages to AsyncStorage
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
-  const clearInput = () => {
-    setInputText('');
+  const saveMessages = async (messages) => {
+    try {
+      await AsyncStorage.setItem("messages", JSON.stringify(messages));
+    } catch (error) {
+      console.error("Failed to save messages:", error);
+    }
   };
-  const Seperator = () => <View style={styles.Seperator} />;
+
+  const renderChatItem = ({ item }) => (
+    <ChatBubble role={item.role} text={item.content} />
+  );
 
   return (
     <View style={styles.container}>
-<View style={{ flexDirection: 'row'}}>
-      <Image source={require('../assets/adaptive-icon.png')} style={styles.logo} />
-      <Text style={styles.title}>Trail</Text>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.btnArrow} onPress={() => navigation.navigate("Home")}>
+          <Image source={Seta2} style={styles.btnArrowImg} />
+        </TouchableOpacity>
+        <View
+          style={{
+            marginRight: responsiveWidth(30),
+            marginBottom: responsiveWidth(2),
+          }}
+        >
+          <Text style={styles.title}>Gpt 3.5</Text>
+          <Text style={styles.titleDescription}>Online</Text>
+        </View>
       </View>
-      <Seperator />
-      <View style={styles.separator} />
-      <ScrollView style={styles.messageContainer}>
-        {messages.map((message, index) => (
-          <View
-            key={index}
-            style={[
-              styles.messageBubble,
-              message.role === 'user' ? styles.userMessage : styles.botMessage,
-            ]}>
-            <Text style={styles.messageText}>{message.content}</Text>
-          </View>
-        ))}
-      </ScrollView>
-      <TouchableOpacity onPress={clearMessages} style={styles.clearMessagesButton}>
-       <Text>Clear Messages</Text>
-     </TouchableOpacity>
-     <KeyboardAvoidingView behavior="padding">
+      <View
+        style={{
+          marginTop: responsiveWidth(-20),
+          alignItems: "flex-end",
+          width: "100%",
+          height: responsiveHeight(9),
+          marginLeft: responsiveWidth(5),
+          zIndex: 1,
+        }}
+      >
+        <TouchableOpacity style={{
+            backgroundColor: "#101014",
+            width: responsiveWidth(5.5),
+            height: responsiveWidth(5.5),
+            borderRadius: 100,
+            justifyContent: "center",
+            alignItems: "center",
+            marginRight: responsiveWidth(18),
+            }}>
+          <Text
+            style={{
+              color: "white",
+              fontSize: responsiveFontSize(1.5),
+              fontFamily: "MPLUS1p",
+            }}>?</Text>
+        </TouchableOpacity>
+        <Image
+          source={GptIcon}
+          style={{
+            height: responsiveWidth(23),
+            width: responsiveWidth(23),
+            resizeMode: "contain",
+          }}
+        />
+      </View>
+
+      <FlatList
+        data={messages}
+        renderItem={renderChatItem}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.chatContainer}
+      />
       <View style={styles.inputContainer}>
+        <TouchableOpacity style={styles.button} onPress={sendMessage}>
+          <Image source={SendIcon} style={styles.buttonText} />
+        </TouchableOpacity>
         <TextInput
           style={styles.input}
-          onChangeText={setInputText}
+          placeholder="Type a message..."
+          placeholderTextColor="#818181"
           value={inputText}
-          placeholder="Write your message..."
+          onChangeText={setInputText}
         />
-        <TouchableOpacity onPress={clearInput} style={styles.clearButton}>
-          <Icon name="times-circle" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-          <Icon name="paper-plane" size={24} />
-        </TouchableOpacity>
       </View>
-      </KeyboardAvoidingView>
     </View>
   );
-};
-
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 80,
-    padding: 10,
+    padding: responsiveWidth(6),
+    backgroundColor: "#101014",
+    width: "100%",
+    alignItems: "center",
   },
-  logo: { 
-    width: responsiveWidth(9),
-    height: responsiveWidth(9),
-    marginTop: responsiveScreenHeight(5),
+
+  header: {
+    flexDirection: "row",
+    paddingBottom: responsiveWidth(2),
+    paddingRight: responsiveWidth(4),
+    backgroundColor: "#1D1E26",
+    marginTop: responsiveWidth(-5.5),
+    height: responsiveHeight(15.5),
+    width: responsiveWidth(100),
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    zIndex: 1,
   },
+
+  btnArrow: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(29, 30, 38, 0.76)",
+    marginLeft: responsiveWidth(7),
+    height: responsiveWidth(15),
+    resizeMode: "contain",
+    //borderRadius: '100%',
+  },
+
+  btnArrowImg: {
+    width: responsiveWidth(5),
+    resizeMode: "contain",
+  },
+
   title: {
-    fontSize: responsiveFontSize(2.3),
-    fontWeight: 'bold',
-    color: '#000',
-    paddingHorizontal: responsiveWidth(0.3),
-    marginTop: responsiveScreenHeight(5.8),
+    fontFamily: "MPLUS1p",
+    fontSize: responsiveFontSize(3),
+    color: "white",
+    textAlign: "center",
   },
-  Seperator: {
-    height: 1,
-    backgroundColor: '#FFD464',
-    width: '100%',
-    marginVertical: 8,
+
+  titleDescription: {
+    fontFamily: "NanumMyeongjo",
+    fontSize: responsiveFontSize(1.5),
+    color: "#9F9F9F",
+    textAlign: "right",
   },
-  messageContainer: {
-    flex: 1,
-    padding: 10,
-  },
-  messageBubble: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 20,
-    marginVertical: 5,
-  },
-  userMessage: {
-    backgroundColor: '#1a73e8',
-    alignSelf: 'flex-end',
-  },
-  botMessage: {
-    backgroundColor: '#e0f0e0',
-    alignSelf: 'flex-start',
-  },
-  messageText: {
-    color: '#000',
+
+  chatContainer: {
+    flexGrow: 1,
+    justifyContent: "flex-end",
+    width: responsiveWidth(86),
+    paddingTop: responsiveWidth(14),
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
-  },
-  input: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    height: responsiveHeight(7),
     marginRight: 10,
+    padding: responsiveWidth(1),
+    borderRadius: 100,
+    backgroundColor: "#1D1E26",
+    gap: responsiveWidth(3),
   },
-  clearButton: {
-    padding: 10,
+
+  input: {
+    flex: 4,
+    color: "#818181",
   },
-  sendButton: {
-    padding: 10,
+
+  button: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  buttonText: {
+    width: responsiveWidth(8),
+    height: responsiveWidth(8),
+    resizeMode: "contain",
   },
 });
-
-export default TrailScreen;
