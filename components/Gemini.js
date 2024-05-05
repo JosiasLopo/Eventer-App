@@ -89,9 +89,9 @@ export default function Gemini() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-          <View style={styles.btnArrow} onPress={() => navigation.navigate("Home")}>
+          <TouchableOpacity style={styles.btnArrow} onPress={() => navigation.navigate("Home")}>
             <Image source = {Seta2} style={styles.btnArrowImg}/>
-          </View>  
+          </TouchableOpacity>  
         <View
           style={{
             marginRight: responsiveWidth(30),
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(29, 30, 38, 0.76)',
-    width: responsiveWidth(20),
+    marginLeft: responsiveWidth(7),
     height: responsiveWidth(15),
     resizeMode: "contain",
     //borderRadius: '100%',
