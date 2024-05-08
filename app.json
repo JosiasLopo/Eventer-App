@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#101014"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [
@@ -29,16 +31,36 @@
       ]
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.eventer",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Precisamos de acesso à câmera para tirar fotos",
+        "NSPhotoLibraryUsageDescription": "Precisamos de acesso à biblioteca de fotos para selecionar uma imagem",
+        "NSMicrophoneUsageDescription": "Precisamos de acesso ao microfone para gravar áudio"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#101014"
-      }
+      },
+      "package": "com.eventer",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "permissions": [
+      "CAMERA_ROLL",
+      "READ_EXTERNAL_STORAGE",
+      "WRITE_EXTERNAL_STORAGE"
+    ],
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

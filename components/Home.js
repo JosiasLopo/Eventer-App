@@ -96,7 +96,7 @@ return (
                 </View>
 
                 <View style={styles.headerBtnsRight}>
-                <TouchableOpacity style={styles.menuBtnRight}>
+                <TouchableOpacity style={styles.menuBtnRight} onPress={() => navigation.navigate("Default")}>
                         <Image source = {noti} style={styles.notiBtnImg}/>
                     </TouchableOpacity>
 
