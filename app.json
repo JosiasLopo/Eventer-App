@@ -1,5 +1,14 @@
 {
   "expo": {
+    "plugins": [
+        [
+          "expo-image-picker",
+          {
+            "photosPermission": "The app allows you to upload photos from your library",
+            "cameraPermission": "The app needs permission to access your camera"
+          }
+        ]
+      ],
     "name": "eventer",
     "slug": "eventer",
     "version": "1.0.0",
@@ -11,9 +20,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#101014"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [
@@ -31,36 +38,16 @@
       ]
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.eventer",
-      "infoPlist": {
-        "NSCameraUsageDescription": "Precisamos de acesso à câmera para tirar fotos",
-        "NSPhotoLibraryUsageDescription": "Precisamos de acesso à biblioteca de fotos para selecionar uma imagem",
-        "NSMicrophoneUsageDescription": "Precisamos de acesso ao microfone para gravar áudio"
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#101014"
-      },
-      "package": "com.eventer",
-      "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
-      ]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "permissions": [
-      "CAMERA_ROLL",
-      "READ_EXTERNAL_STORAGE",
-      "WRITE_EXTERNAL_STORAGE"
-    ],
-    "plugins": [
-      "expo-font"
-    ]
+    }
   }
 }

@@ -5,10 +5,6 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage, ref } from 'firebase/storage';
 
-
-
-
-
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -22,7 +18,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-console.log("Firebase app initialized:", app); 
+
 
 // Initialize Firebase
 
