@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Image, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, Image, Text, StyleSheet, Dimensions } from 'react-native';
 import { firebase } from '../config/firebase';
 import { getStorage, ref, app, getDownloadURL, listAll } from 'firebase/storage';
 import { getAuth } from 'firebase/auth'; 
 import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 
 const PhotosPage = () => {
@@ -45,11 +46,13 @@ const PhotosPage = () => {
         <View style={styles.container}>
             <ScrollView>
                 {imageData.map((data, index) => (
-                    <View key={index}>
-                        <Image source={{ uri: data.url }} style={styles.image} />
-                        <Text style={styles.title}>{data.title}</Text>
-                        <Text style={styles.description}>{data.description}</Text>
-                        <Text style={styles.hashtags}>{data.hashtags}</Text>
+                    <View key={index} style={{justifyContent: 'center', alignItems: 'center'}}>
+                            <Image source={{ uri: data.url }} style={styles.image} />
+                        <View style={styles.descriptionContainer}>
+                            <Text style={styles.title}>{data.title}</Text>
+                            <Text style={styles.description}>{data.description}</Text>
+                            <Text style={styles.hashtags}>{data.hashtags}</Text>
+                        </View>
                     </View>
                 ))}
             </ScrollView>
@@ -57,28 +60,63 @@ const PhotosPage = () => {
     );
 };
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10
-    },
-    image: {
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
-        height: 200,
-        marginBottom: 10
+        backgroundColor: '#101014'
     },
+
+    
+    image: {
+        width: width - 30,
+        height: responsiveHeight(27),
+        borderRadius: responsiveWidth(12),
+        position: 'relative',
+        top: 10,
+        zIndex:1,
+        
+    },
+
+    descriptionContainer: {
+        marginBottom: responsiveWidth(5),
+        backgroundColor: "#1D1E26",
+        width: responsiveWidth(80),
+        height: responsiveHeight(15),
+        justifyContent: 'flex-start',
+        paddingTop: responsiveWidth(5),
+        paddingLeft: responsiveWidth(10),
+        paddingRight: responsiveWidth(10),
+        paddingBottom: responsiveWidth(2),
+        borderBottomLeftRadius: responsiveWidth(12),
+        borderBottomRightRadius: responsiveWidth(12),
+    },
+
     title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5
+        color: "white",
+        fontSize: responsiveFontSize(2.5),
+        marginBottom: responsiveWidth(1),
+        fontFamily: "MPLUS1pBold",
     },
     description: {
-        fontSize: 16,
-        marginBottom: 5
+        color: "white",
+        fontSize: responsiveFontSize(1.8),
+        marginBottom: responsiveWidth(1),
+        fontFamily: "MPLUS1p",
+        marginLeft: responsiveWidth(2),
+        marginBottom: responsiveWidth(2.5)
     },
     hashtags: {
-        fontSize: 14,
-        color: 'gray'
+        fontSize: responsiveFontSize(1.5),
+        color: '#898989',
+        fontFamily: "MPLUS1p",
+        marginBottom: responsiveWidth(3.5),
+        marginLeft: responsiveWidth(2)
     }
 });
 

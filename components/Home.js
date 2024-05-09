@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, TextInput, StyleSheet, ScrollView, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
 import { useFonts } from 'expo-font';
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions"; 
+import { responsiveFontSize, responsiveHeight, responsiveScreenFontSize, responsiveWidth } from "react-native-responsive-dimensions"; 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import menu from '../src/assets/images/menu.png';
 import noti from '../src/assets/images/notification.png';
@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import ChatGptIcon from '../src/assets/images/GptIcon.png';
 import Gemini from '../src/assets/images/GeminiIcon.png';
 import Chat from '../src/assets/images/ChatIcon.png';
+import PhotosPage from './MediaWidget';
 
 const Stack = createStackNavigator();
 
@@ -84,87 +85,93 @@ const data = [
 
 
 return ( 
-    <View style={[styles.container,{paddingTop: insets.top, paddingBottom: insets.bottom}]}>
-    <ScrollView style={[styles.container,{paddingTop: responsiveWidth(5)}]} stickyHeaderIndices={[]}>
+    <View style={[styles.container,{paddingTop: insets.top, paddingBottom: insets.bottom - 10}]}>
+        <ScrollView style={[styles.container,{paddingTop: responsiveWidth(5)}]} stickyHeaderIndices={[]}>
 
 
-        <View style={[styles.headerBtns, {paddingRight: responsiveWidth(2.5), paddingLeft: responsiveWidth(2.5)}]}>
-                <View>
-                    <TouchableOpacity style={styles.menuBtn} onPress={() => navigation.toggleDrawer()}>
-                        <Image source={menu} style={styles.menuBtnImg}/>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.headerBtnsRight}>
-                <TouchableOpacity style={styles.menuBtnRight} onPress={() => navigation.navigate("Default")}>
-                        <Image source = {noti} style={styles.notiBtnImg}/>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.menuBtnRight} onPress={handleLogout}>
-                        <Image source = {account} style={styles.accountBtnImg}/>
-                    </TouchableOpacity>
-
-                </View>
-        </View>
-
-        <View style={styles.welcomeTxt}>
-            <Text style={styles.Welcome}>Bem Vindo</Text>
-            
-            <Text style={styles.userTxt}>{userEmail.split('@')[0].replace(/\.| /g, '')}</Text>
-        </View>
-
-        <View style={[styles.eventTypeDate, { marginBottom: responsiveWidth(-6),paddingLeft: responsiveWidth(5.5),  paddingEnd: responsiveWidth(5.5)}]}>
-                <Text style={styles.eventTypeDisplay}>Casamento</Text>
-                <Text style={styles.eventDate}>16 setembro </Text>
-                <Image source = {calendar} style={styles.calendarImg}/>
-        </View>
-
-        <View style={styles.ChatsView}>
-            <TouchableOpacity style={styles.ChatsContainer}>
-                <Image /*source={}*/ style={styles.ChatImage}/>
-            </TouchableOpacity>
-        </View>
-
-        <View style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: responsiveWidth(5),
-            marginBottom: responsiveWidth(3),
-        }}>
-            <TouchableOpacity onPress={() => navigation.navigate('ChatGpt')}>
-                <Image source={ChatGptIcon} style={{height: responsiveWidth(15), width: responsiveWidth(17), resizeMode: "contain",}}/>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('Gemini')}>
-                <Image source={Gemini} style={{height: responsiveWidth(15), width: responsiveWidth(17), resizeMode: "contain",}}/>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('ChatPage')}>
-                <Image source={Chat} style={{height: responsiveWidth(15), width: responsiveWidth(17), resizeMode: "contain",}}/>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.ChatsText}><Text style={[{color: '#818181', fontFamily:'MPLUS1p'}]}>Your Chats...</Text></View>
-
-        <View style={styles.WidgetsContainer}>
-            <View style={styles.WidgetsView}>
-                <View style={styles.ToDoHeader}>
-                    <View style={{justifyContent:'left', alignItems:'left'}}>
-                        <Text style={styles.ToDoTitle}>Todo List</Text>
+            <View style={[styles.headerBtns, {paddingRight: responsiveWidth(2.5), paddingLeft: responsiveWidth(2.5)}]}>
+                    <View>
+                        <TouchableOpacity style={styles.menuBtn} onPress={() => navigation.toggleDrawer()}>
+                            <Image source={menu} style={styles.menuBtnImg}/>
+                        </TouchableOpacity>
                     </View>
-                        <View style={{justifyContent:'right', alignItems:'right'}}>
-                            <TouchableOpacity style={styles.TodoAddBtn}><Text style={styles.TodoAddText} onPress={() => navigation.navigate("Todo")}><Ionicons name="arrow-forward" size={responsiveWidth(5)} color="white"  /></Text></TouchableOpacity>
-                        </View>
-                </View>
-                <Stack.Navigator screenOptions={{headerShown: false}}>
-                    <Stack.Screen name="MyTodos" component={List} />
-                </Stack.Navigator>
 
-                
+                    <View style={styles.headerBtnsRight}>
+                    <TouchableOpacity style={styles.menuBtnRight} onPress={() => navigation.navigate("Default")}>
+                            <Image source = {noti} style={styles.notiBtnImg}/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.menuBtnRight} onPress={handleLogout}>
+                            <Image source = {account} style={styles.accountBtnImg}/>
+                        </TouchableOpacity>
+
+                    </View>
             </View>
-        </View>
-    </ScrollView>
+
+            <View style={styles.welcomeTxt}>
+                <Text style={styles.Welcome}>Bem Vindo</Text>
+                
+                <Text style={styles.userTxt}>{userEmail.split('@')[0].replace(/\.| /g, '')}</Text>
+            </View>
+
+            <View style={[styles.eventTypeDate, { marginBottom: responsiveWidth(-6),paddingLeft: responsiveWidth(5.5),  paddingEnd: responsiveWidth(5.5)}]}>
+                    <Text style={styles.eventTypeDisplay}>Casamento</Text>
+                    <Text style={styles.eventDate}>16 setembro </Text>
+                    <Image source = {calendar} style={styles.calendarImg}/>
+            </View>
+
+            <View style={styles.ChatsView}>
+                <TouchableOpacity style={styles.ChatsContainer}>
+                    <Image /*source={}*/ style={styles.ChatImage}/>
+                </TouchableOpacity>
+            </View>
+
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: responsiveWidth(5),
+                marginBottom: responsiveWidth(3),
+            }}>
+                <TouchableOpacity onPress={() => navigation.navigate('ChatGpt')}>
+                    <Image source={ChatGptIcon} style={{height: responsiveWidth(15), width: responsiveWidth(17), resizeMode: "contain",}}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('Gemini')}>
+                    <Image source={Gemini} style={{height: responsiveWidth(15), width: responsiveWidth(17), resizeMode: "contain",}}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('ChatPage')}>
+                    <Image source={Chat} style={{height: responsiveWidth(15), width: responsiveWidth(17), resizeMode: "contain",}}/>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.ChatsText}><Text style={[{color: '#818181', fontFamily:'MPLUS1p'}]}>Your Chats...</Text></View>
+
+            <View style={styles.WidgetsContainer}>
+                <View style={styles.WidgetsView}>
+                    <View style={styles.ToDoHeader}>
+                        <View style={{justifyContent:'left', alignItems:'left'}}>
+                            <Text style={styles.ToDoTitle}>Todo List</Text>
+                        </View>
+                            <View style={{justifyContent:'right', alignItems:'right'}}>
+                                <TouchableOpacity style={styles.TodoAddBtn}><Text style={styles.TodoAddText} onPress={() => navigation.navigate("Todo")}><Ionicons name="arrow-forward" size={responsiveWidth(5)} color="white"  /></Text></TouchableOpacity>
+                            </View>
+                    </View>
+                    <Stack.Navigator screenOptions={{headerShown: false}}>
+                        <Stack.Screen name="MyTodos" component={List} />
+                    </Stack.Navigator>
+                    
+                </View>
+
+                <View style={{flexDirection: 'row', marginTop: responsiveWidth(5), gap: 1,}}>
+                <View style={{backgroundColor:"#1D1E26", width: responsiveWidth(2.5), height: responsiveWidth(2.5), borderRadius: responsiveWidth(10)}}></View>
+                <View style={{backgroundColor:"#1D1E26", width: responsiveWidth(2.5), height: responsiveWidth(2.5), borderRadius: responsiveWidth(10)}}></View>
+                <View style={{backgroundColor:"#1D1E26", width: responsiveWidth(2.5), height: responsiveWidth(2.5), borderRadius: responsiveWidth(10)}}></View>
+                </View>
+                <PhotosPage/>
+            </View>
+        </ScrollView>
 
         <TouchableOpacity style={styles.chatBtn}  onPress={() => navigation.navigate('ChatsScreen')}>
             <Image source = {chatBtn} style={styles.chatBtnImg}/>
