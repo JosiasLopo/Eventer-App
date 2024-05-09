@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Image, Text, TouchableOpacity, SafeAreaView, Alert, Button} from 'react-native'
+import {View, StyleSheet, Image, Text, TouchableOpacity, SafeAreaView, Alert, TextInput} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { firebase } from '../config/firebase'; // Importe o serviço de armazenamento
 import { getStorage, ref, app, uploadBytes } from 'firebase/storage';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth'; 
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
 
 
 // funciona, no android está a dar upload no emulador ios crascha não sei pq
@@ -12,11 +14,17 @@ import { getAuth } from 'firebase/auth';
 // mudar a pasta para media ao inves de images e mandar ao zé
 
 const UploadScreen = () => {
+  const db = getFirestore(app); 
 
-   const navigation = useNavigation();
+  const navigation = useNavigation();
 
-   const [image, setImage] = useState(null)
-   const [uploading, setUploading] = useState(false) 
+  const [image, setImage] = useState(null)
+  const [uploading, setUploading] = useState(false) 
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [hashtags, setHashtags] = useState(''); // Consider a way to manage multiple hashtags
+
 
 
    const pickImage = async () => {
@@ -66,6 +74,26 @@ const UploadScreen = () => {
             'Photo uploaded!'
         );
         setImage(null);
+
+        try {
+        const docRef = await addDoc(collection(db, "photoDescriptions"), {
+            title: title, 
+            description: description, 
+            hashtags: hashtags, // Consider how to store an array of hashtags
+            imageRef: storageRef.toString(), // Store the image reference without modification
+            userID: uid 
+        });
+          console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+
+        setTitle('');
+        setDescription('');
+        setHashtags('');
+
+        console.log("Image uploaded to:", storageRef.toString()); 
+
     };
 
 
@@ -83,6 +111,24 @@ const UploadScreen = () => {
                   <Text style={styles.btnText}>Upload Image</Text> 
               </TouchableOpacity> 
           </View> 
+          <TextInput 
+            style={styles.input} 
+            onChangeText={setTitle} 
+            value={title} 
+            placeholder="Title" 
+          />
+          <TextInput 
+            style={styles.input} 
+            onChangeText={setDescription} 
+            value={description} 
+            placeholder="Description" 
+          />
+          <TextInput 
+            style={styles.input} 
+            onChangeText={setHashtags} 
+            value={hashtags} 
+            placeholder="Hashtag" 
+          />
           <TouchableOpacity onPress={() => navigation.navigate("MediaWidget")}><Text>Photos</Text></TouchableOpacity>
       </SafeAreaView>
     )

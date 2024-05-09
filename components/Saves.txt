@@ -1,23 +1,52 @@
-// App.js
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Gemini from './Gemini';
+  useEffect(() => {
+        
+        const fetchImages = async () => {
+
+            const auth = getAuth();
+            const user = auth.currentUser;
+            const uid = user.uid; 
+
+            const imagesRef = ref(storage, `images/${uid}`); 
+            const listResult = await listAll(imagesRef); 
+            const imageUrls = await Promise.all(listResult.items.map(async imageRef => { 
+                return await getDownloadURL(imageRef); 
+            }));
+
+            // Fetch Descriptions from Firestore
+            const db = getFirestore(app);
+            const descriptionsQuery = query(collection(db, "photoDescriptions"), where("userID", "==", uid));
+            const descriptionsSnapshot = await getDocs(descriptionsQuery);
+
+            const descriptions = descriptionsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            console.log("Fetched descriptions:", descriptions);   
+
+            // Combine image URLs and Descriptions
+            const combinedData = imageUrls.map((url, index) => {
+            const matchingDescription = descriptions.find(desc => desc.imageRef.trim() === url.trim());   
+            return { 
+                url, 
+                description: matchingDescription || { title: "No description available", description: "" } 
+            }; // Provide a default in case a description isn't found
+        });
+        
+        setImageUrls(combinedData); 
+        console.log("Combined Data:", JSON.stringify(combinedData, null, 2));
+
+        };
+
+        fetchImages();
+    }, []);
 
 
-export default function Default() {
-  return (
-    <View style={styles.container}>
-      <Gemini/>
-    </View>
-  );
-};
 
 
 
-const styles = StyleSheet.create({ 
-  container: { 
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-  }, 
-});
+
+
+
+
+
+
