@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Image, Text, StyleSheet, Dimensions } from 'react-native';
-import { firebase } from '../config/firebase';
 import { getStorage, ref, app, getDownloadURL, listAll } from 'firebase/storage';
 import { getAuth } from 'firebase/auth'; 
-import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-
 
 const PhotosPage = () => {
 
@@ -13,7 +11,6 @@ const PhotosPage = () => {
     const db = getFirestore(app); // Initialize Firestore at the top level
     const storage = getStorage(app); // Initialize storage at the top level
 
-    
     useEffect(() => {
         const fetchImages = async () => {
 
@@ -40,7 +37,13 @@ const PhotosPage = () => {
         };
 
         fetchImages();
-    }, []);
+
+        // Atualiza a lista de imagens a cada 60 segundos
+        const intervalId = setInterval(fetchImages, 10000);
+
+        // Limpa o intervalo quando o componente é desmontado
+        return () => clearInterval(intervalId);
+    }, [db, storage]);
 
     return (
         <View style={styles.container}>
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
         marginBottom: responsiveWidth(5),
         backgroundColor: "#1D1E26",
         width: responsiveWidth(80),
-        height: responsiveHeight(15),
+        height: responsiveHeight(18),
         justifyContent: 'flex-start',
         paddingTop: responsiveWidth(5),
         paddingLeft: responsiveWidth(10),

@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChatBubble from "./ChatBubble";
 import {
   responsiveFontSize,
-  responsiveHeight,
+  responsiveHeight, 
   responsiveWidth,
 } from "react-native-responsive-dimensions";
 import GptIcon from "../src/assets/images/GptIcon.png";

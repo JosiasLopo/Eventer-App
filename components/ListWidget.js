@@ -8,7 +8,7 @@ import { getAuth, onAuthStateChanged, currentUser } from 'firebase/auth'; // Imp
 
 
 
-const List = () => {
+const ListWidget = () => {
     const [todo, setTodo] = useState('');
     const [todos, setTodos] = useState([]);
     const [user, setUser] = useState(null); // State to store user information
@@ -82,6 +82,7 @@ const List = () => {
     return (
         <View style={styles.container}>
 
+            <View style={{height: '100%', width: '100%', backgroundColor: '#1D1E26', borderBottomLeftRadius: responsiveWidth(10), borderBottomRightRadius: responsiveWidth(10)}}>
             <View  style={styles.content}>
             {todos.length > 0 && (
                 <FlatList style={styles.Flat}
@@ -94,64 +95,20 @@ const List = () => {
         
         </View>
         </View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     
-        container: {
-            flex: 1,
-            backgroundColor: '#1D1E26',
-        },
-
-    containerTitle: {
-        flex: 0.2,
-        justifyContent: 'flex-start',
-    },
-
-    containerTodo: {
+    container: {
         flex: 1,
-        paddingLeft: responsiveWidth(7),
-        paddingRight: responsiveWidth(7),
-        paddingTop: responsiveWidth(5),
-        backgroundColor: '#101014',
-        borderTopLeftRadius: responsiveWidth(10),
-        borderTopRightRadius: responsiveWidth(10),
-        
-        
+        backgroundColor: '#101014',        
     },
 
     content: {
-        flex: 1,
-    },
-    
-    form: {
-        flex: 0.1,
-        marginVertical: responsiveWidth(5),
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-
-    input: {
-        flex: 1,
-        height: responsiveWidth(15),
-        borderRadius: responsiveWidth(100),
-        backgroundColor: "#1D1E26",
-        color: 'white',
-        paddingLeft: responsiveWidth(5),
-        paddingRight: responsiveWidth(5),
-        fontFamily: 'MPLUS1p',
-    },
-
-    ButtonAdd: {
-        paddingLeft: responsiveWidth(5),
-        paddingRight: responsiveWidth(5),
-    },
-
-    TextAdd: {
-        color:"blue", 
-        fontFamily:"MPLUS1p", 
-        fontSize: responsiveFontSize("2")
+        padding: 10,
+        paddingTop: 10,
     },
 
     todo: {
@@ -159,8 +116,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         marginBottom: responsiveWidth(1.7),
-
     },
+
     todoText: {
         flex: 1,
         paddingHorizontal: 4,
@@ -173,11 +130,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: responsiveWidth(10),
+        
     },
 
-    Flat: {
-        flex: 1,
-    }
 });
 
-export default List;
+export default ListWidget;

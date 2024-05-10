@@ -26,6 +26,7 @@ import ChatsScreen from './components/ChatsScreen';
 import ChatGpt from './components/ChatGpt';
 import ChatPage from './components/ChatPage';
 import MediaWidget from './components/MediaWidget';
+import NewPost from './components/NewPost'
 
 function DrawerContent(props) {
   const [userEmail, setUserEmail] = useState(''); // State to store user's email
@@ -115,6 +116,7 @@ const StackNav=()=>{
       <Stack.Screen name="ChatGpt" component={ChatGpt} />
       <Stack.Screen name="ChatPage" component={ChatPage} />
       <Stack.Screen name="MediaWidget" component={MediaWidget} />
+      <Stack.Screen name="NewPost" component={NewPost} />
     </Stack.Navigator>
   )
 }

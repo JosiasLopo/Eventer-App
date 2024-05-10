@@ -81,7 +81,7 @@ export default function ChatsScreen() {
 
           <TouchableOpacity style={styles.chatView} onPress={() => navigation.navigate('ChatPage')}>
             <View style={{marginLeft: responsiveWidth(5)}}>
-              <Text style={styles.AiTitle}>Memory Chat</Text>
+              <Text style={styles.AiTitle}>Fast Notes</Text>
               <Text style={styles.AiDescription}>Chat Yourself</Text>
             </View>
             <View style={[styles.logoImage, {marginRight: responsiveWidth(5)}]}>

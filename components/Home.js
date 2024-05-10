@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import { responsiveFontSize, responsiveHeight, responsiveScreenFontSize, responsiveWidth } from "react-native-responsive-dimensions"; 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import menu from '../src/assets/images/menu.png';
-import noti from '../src/assets/images/notification.png';
+import Upload from '../src/assets/images/Upload.png';
 import account from '../src/assets/images/account.png';
 import calendar from '../src/assets/images/calendar.png';
 import bride from '../src/assets/images/Bride.jpg';
@@ -15,7 +15,7 @@ import { AuthCredential, signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import List from './ListWidget'; // Import your List component here
+import ListWidget from './ListWidget'; // Import your List component here
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -97,8 +97,8 @@ return (
                     </View>
 
                     <View style={styles.headerBtnsRight}>
-                    <TouchableOpacity style={styles.menuBtnRight} onPress={() => navigation.navigate("Default")}>
-                            <Image source = {noti} style={styles.notiBtnImg}/>
+                    <TouchableOpacity style={styles.menuBtnRight} onPress={() => navigation.navigate("NewPost")}>
+                            <Image source = {Upload} style={styles.UploadBtnImg}/>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.menuBtnRight} onPress={handleLogout}>
@@ -158,10 +158,14 @@ return (
                                 <TouchableOpacity style={styles.TodoAddBtn}><Text style={styles.TodoAddText} onPress={() => navigation.navigate("Todo")}><Ionicons name="arrow-forward" size={responsiveWidth(5)} color="white"  /></Text></TouchableOpacity>
                             </View>
                     </View>
-                    <Stack.Navigator screenOptions={{headerShown: false}}>
-                        <Stack.Screen name="MyTodos" component={List} />
+                  
+                </View>
+
+
+                <View style={styles.TodoView}>
+                <Stack.Navigator screenOptions={{headerShown: false}}>
+                        <Stack.Screen name="MyTodos" component={ListWidget} />
                     </Stack.Navigator>
-                    
                 </View>
 
                 <View style={{flexDirection: 'row', marginTop: responsiveWidth(5), gap: 1,}}>
@@ -253,8 +257,8 @@ export const styles = StyleSheet.create({
         resizeMode: "contain",
     },
 
-    notiBtnImg: {
-        width: responsiveWidth(8),
+    UploadBtnImg: {
+        width: responsiveWidth(6),
         resizeMode: "contain",
     },
 
@@ -328,21 +332,26 @@ export const styles = StyleSheet.create({
 
 
     WidgetsContainer: {
-        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: responsiveWidth(13),
-        
+        alignItems: 'center',        
     },
 
     WidgetsView: {
-        width: responsiveWidth(90), // Ajuste conforme necessário
-        height: responsiveWidth(55), // Ajuste conforme necessário
-        borderRadius: 60,
-        overflow: 'hidden', // Para garantir que a imagem respeite a borda arredondada
+        width: "85%",
+        height: responsiveHeight(8),
         backgroundColor: '#1D1E26',
-        paddingBottom: responsiveWidth(3),
         paddingTop: responsiveWidth(2),
+        justifyContent: "center",
+        borderTopLeftRadius: responsiveWidth(10), // Meia circunferência
+        borderTopRightRadius: responsiveWidth(10), // Meia circunferência
+        overflow: 'hidden', // Para garantir que a imagem respeite a borda arredondada
+        marginBottom: 1,
+    },
+
+
+    TodoView: {
+        height:responsiveWidth(35),
+        width: '85%',
     },
 
     ToDoHeader: {
