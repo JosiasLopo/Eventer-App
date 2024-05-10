@@ -35,7 +35,7 @@ const PhotosPage = () => {
             }));
             setImageData(imageUrls);
         };
-
+ 
         fetchImages();
 
         // Atualiza a lista de imagens a cada 60 segundos

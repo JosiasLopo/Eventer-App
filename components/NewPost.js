@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import Seta2 from "../src/assets/images/arrowLeft.png";
 
-
+ 
 const UploadScreen = () => {
 
   const insets = useSafeAreaInsets();

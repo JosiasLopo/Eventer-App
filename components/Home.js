@@ -5,7 +5,6 @@ import { responsiveFontSize, responsiveHeight, responsiveScreenFontSize, respons
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import menu from '../src/assets/images/menu.png';
 import Upload from '../src/assets/images/Upload.png';
-import account from '../src/assets/images/account.png';
 import calendar from '../src/assets/images/calendar.png';
 import bride from '../src/assets/images/Bride.jpg';
 import hands from '../src/assets/images/hands.jpg';
@@ -23,6 +22,7 @@ import ChatGptIcon from '../src/assets/images/GptIcon.png';
 import Gemini from '../src/assets/images/GeminiIcon.png';
 import Chat from '../src/assets/images/ChatIcon.png';
 import PhotosPage from './MediaWidget';
+import ProfileScreen from './profilePic';
 
 const Stack = createStackNavigator();
 
@@ -101,8 +101,10 @@ return (
                             <Image source = {Upload} style={styles.UploadBtnImg}/>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.menuBtnRight} onPress={handleLogout}>
-                            <Image source = {account} style={styles.accountBtnImg}/>
+                        <TouchableOpacity style={styles.menuBtnRight} onPress={() => navigation.navigate("Profile")}> 
+                            <View style={styles.accountBtnImg}>
+                                    <ProfileScreen/>
+                            </View>
                         </TouchableOpacity>
 
                     </View>
@@ -263,8 +265,12 @@ export const styles = StyleSheet.create({
     },
 
     accountBtnImg: {
-        width: responsiveWidth(13),
-        resizeMode: "contain",
+        width: responsiveWidth(11),
+        height: responsiveWidth(11),
+        resizeMode: "cover",
+        overflow: "hidden",
+        borderRadius: 100,
+        position: 'absolute', // Para sobrepor
     },
 
     welcomeTxt: {
