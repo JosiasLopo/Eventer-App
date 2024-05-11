@@ -72,7 +72,7 @@ const ListWidget = () => {
             return (
                 <View style={[styles.todoContainer, { borderRadius:"100%"}]}>
                 <TouchableOpacity onPress={() => toggleDone(item.id, item.done)} style={styles.todo}>
-                    {item.done ? <Ionicons name="checkmark-circle" size={32} color="green"  /> : <Ionicons name="radio-button-off" size={32} color="white" />}
+                    {item.done ? <Ionicons name="checkmark-circle" size={responsiveWidth(7.5)} color="green"  /> : <Ionicons name="radio-button-off" size={responsiveWidth(7.5)} color="white" />}
                     <Text style={styles.todoText}>{item.title}</Text>
                 </TouchableOpacity>
                 </View>
@@ -107,20 +107,19 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        padding: 13,
-        paddingTop: 16,
+        padding: responsiveWidth(3),
+        paddingBottom: 0,
     },
 
     todo: {
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
-        marginBottom: responsiveWidth(2),
+        marginBottom: responsiveWidth(3),
     },
 
     todoText: {
         flex: 1,
-        paddingHorizontal: 4,
         color: 'white',
         fontSize: responsiveFontSize(2.3),
         paddingLeft: 10,
@@ -130,7 +129,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: responsiveWidth(10),
-        
     },
 
 });

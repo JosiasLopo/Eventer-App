@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TextInput, StyleSheet, ScrollView, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
+import { Image, TextInput, StyleSheet, ScrollView, Text, TouchableOpacity, View, Linking } from 'react-native';
 import { useFonts } from 'expo-font';
 import { responsiveFontSize, responsiveHeight, responsiveScreenFontSize, responsiveWidth } from "react-native-responsive-dimensions"; 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,6 +28,16 @@ const Stack = createStackNavigator();
 
 export default function Home() {
     const navigation = useNavigation();
+    const currentDate = new Date();
+    const options = { month: 'long', day: 'numeric' };
+    const formattedDate = currentDate.toLocaleDateString('pt-PT', options);
+    //pt-PT pt-BR
+
+    const handleOpenCalendar = () => {
+        Linking.openURL('content://com.android.calendar/time/');
+        Linking.openURL('calshow://'); // Universal URL scheme for opening the calendar app
+    };
+
 
 const [userEmail, setUserEmail] = useState(''); // State to store user's email
 
@@ -117,9 +127,11 @@ return (
             </View>
 
             <View style={[styles.eventTypeDate, { marginBottom: responsiveWidth(-6),paddingLeft: responsiveWidth(5.5),  paddingEnd: responsiveWidth(5.5)}]}>
-                    <Text style={styles.eventTypeDisplay}>Casamento</Text>
-                    <Text style={styles.eventDate}>16 setembro </Text>
-                    <Image source = {calendar} style={styles.calendarImg}/>
+                    <Text style={styles.eventTypeDisplay}>Eventer</Text>
+                    <TouchableOpacity style={styles.eventTypeDate} onPress={handleOpenCalendar}>
+                        <Text style={styles.eventDate}>{formattedDate}</Text>
+                        <Image source = {calendar} style={styles.calendarImg}/>
+                    </TouchableOpacity>
             </View>
 
             <View style={styles.ChatsView}>
@@ -179,7 +191,7 @@ return (
             </View>
         </ScrollView>
 
-        <TouchableOpacity style={styles.chatBtn}  onPress={() => navigation.navigate('ChatsScreen')}>
+        <TouchableOpacity style={styles.chatBtn}  onPress={() => navigation.navigate('ChatPage')}>
             <Image source = {chatBtn} style={styles.chatBtnImg}/>
         </TouchableOpacity>
     </View>
@@ -386,34 +398,5 @@ export const styles = StyleSheet.create({
         marginRight: responsiveWidth(8),
     },
 
-    TodoAddText: {
-        color: 'white',
-        fontFamily: 'NanumMyeongjo',
-        fontSize: responsiveFontSize(3),
-        paddingTop: responsiveWidth(0.5),
-    },
-
-    ToDoContainer: {
-        flex:0.7,
-        flexDirection: "row",
-        alignItems: 'flex-start',
-        //justifyContent: "flex-end",
-        paddingLeft: responsiveWidth(16),
-    },
-
-    ToDoCheckBtn: {
-        borderWidth: 2,
-        width: responsiveWidth(6),
-        height: responsiveWidth(6),
-        borderRadius: 100,
-        borderColor: 'white',
-    },
-
-    ToDoData: {
-        color: 'white',
-        fontFamily: 'MPLUS1p',
-        fontSize: responsiveFontSize(2),
-        paddingLeft: responsiveWidth(5),
-    },
 
     });

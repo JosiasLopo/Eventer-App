@@ -26,7 +26,11 @@ import ChatsScreen from './components/ChatsScreen';
 import ChatGpt from './components/ChatGpt';
 import ChatPage from './components/ChatPage';
 import MediaWidget from './components/MediaWidget';
-import NewPost from './components/NewPost'
+import NewPost from './components/NewPost';
+import Notes from './components/Notes';
+import NoteDetail from './components/NoteDetail';
+import CreateNote from './components/CreateNote';
+
 
 function DrawerContent(props) {
   const [userEmail, setUserEmail] = useState(''); // State to store user's email
@@ -75,8 +79,9 @@ function DrawerContent(props) {
                                   <View style={{gap: responsiveWidth(4), height: responsiveHeight(50), justifyContent: "center", marginLeft: responsiveWidth(7)}}>
                                     <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="document" size={responsiveWidth(7)} style={{marginRight: responsiveWidth(4)}}  color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>Home</Text></TouchableOpacity>
                                     <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="person" size={responsiveWidth(7)} style={{marginRight: responsiveWidth(4)}}  color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>Profile</Text></TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Todo')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="heart" size={responsiveWidth(7)}  style={{marginRight: responsiveWidth(4)}} color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>Notes</Text></TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Default')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="locate" size={responsiveWidth(7)} style={{marginRight: responsiveWidth(4)}}  color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>Localizations</Text></TouchableOpacity>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Todo')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="heart" size={responsiveWidth(7)}  style={{marginRight: responsiveWidth(4)}} color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>To-do</Text></TouchableOpacity>
+                                    <TouchableOpacity onPress={() => navigation.navigate('ChatsScreen')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="heart" size={responsiveWidth(7)}  style={{marginRight: responsiveWidth(4)}} color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>Chats</Text></TouchableOpacity>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Notes')} style={{flexDirection:"row", alignItems: "center"}}><Ionicons name="locate" size={responsiveWidth(7)} style={{marginRight: responsiveWidth(4)}}  color="white"  /><Text style={{color: "white", fontFamily: "MPLUS1p", fontSize: responsiveFontSize(2)}}>Notes</Text></TouchableOpacity>
                                   </View>
                                   <View style={{
                                     borderBottomColor: '#525468',
@@ -117,6 +122,9 @@ const StackNav=()=>{
       <Stack.Screen name="ChatPage" component={ChatPage} />
       <Stack.Screen name="MediaWidget" component={MediaWidget} />
       <Stack.Screen name="NewPost" component={NewPost} />
+      <Stack.Screen name="Notes" component={Notes} />
+      <Stack.Screen name="NoteDetail" component={NoteDetail} />
+      <Stack.Screen name="CreateNote" component={CreateNote} />
     </Stack.Navigator>
   )
 }
