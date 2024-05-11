@@ -107,15 +107,15 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        padding: 10,
-        paddingTop: 10,
+        padding: 13,
+        paddingTop: 16,
     },
 
     todo: {
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
-        marginBottom: responsiveWidth(1.7),
+        marginBottom: responsiveWidth(2),
     },
 
     todoText: {

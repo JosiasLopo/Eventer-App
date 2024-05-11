@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageContainer: {
-    width: responsiveWidth(40),
-    height: responsiveWidth(40),
+    width: responsiveWidth(62),
+    height: responsiveWidth(62),
     position: 'relative',
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: responsiveWidth(62),
+    height: responsiveWidth(62),
     resizeMode: 'contain',
     position: 'absolute',
     zIndex: 1,
