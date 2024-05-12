@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Alert, TouchableOpacity, Image } from 'react-native';
 import { doc, getDoc, updateDoc, deleteDoc} from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebase';
 import { useNavigation } from '@react-navigation/native';
@@ -11,7 +11,9 @@ export default function DetalheNota({ route }) {
   const { notaId } = route.params;
   const [titulo, setTitulo] = useState('');
   const [conteudo, setConteudo] = useState('');
+  const [shouldSave, setShouldSave] = useState(false);
   const navigation = useNavigation(); // Hook para navegação
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     // ... (carregar nota - mesma lógica)
@@ -24,12 +26,31 @@ export default function DetalheNota({ route }) {
       }
     };
     carregarNota();
-  }, []);
+
+    let timeoutId;
+    if (shouldSave) {
+      timeoutId = setTimeout(() => {
+        salvarNota();
+        setShouldSave(false);
+      }, 10000); // 5000 milissegundos = 5 segundos
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [shouldSave]);
 
   const salvarNota = async () => {
     // ... (salvar nota - mesma lógica)
         const docRef = doc(FIRESTORE_DB, 'notas', notaId);
     await updateDoc(docRef, { titulo, conteudo });
+  };
+
+  const handleBlur = () => {
+    setShouldSave(true); // Define shouldSave como true após o blur
+  };
+
+  const handlePress = () => {
+    salvarNota();
+    navigation.goBack(); // Navega de volta para a página anterior
   };
 
   const apagarNota = async () => {
@@ -56,21 +77,35 @@ export default function DetalheNota({ route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={titulo}
-        onChangeText={setTitulo}
-        onBlur={salvarNota}
-      />
-      <TextInput
-        style={styles.inputArea}
-        multiline={true}
-        value={conteudo}
-        onChangeText={setConteudo}
-        onBlur={salvarNota}
-      />
-      <Button title="Apagar Nota" onPress={apagarNota} color="red" /> 
+    <View style={[styles.container,{paddingTop: insets.top }]}>
+        <View style={[styles.notesContainer, {paddingBottom: insets.bottom - 10}]}>
+            <View style={styles.title}>
+                 <TouchableOpacity style={styles.btnArrow} onPress={handlePress}>
+                    <Image source={Seta2} style={styles.btnArrowImg} />
+                </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        value={titulo}
+                        onChangeText={setTitulo}
+                        onBlur={handleBlur}
+                    />
+                </View>
+            </View>
+            <TextInput
+                style={styles.inputArea}
+                multiline={true}
+                value={conteudo}
+                onChangeText={setConteudo}
+                onBlur={handleBlur}
+            />
+
+            <View style={styles.deleteBtn}>
+                <TouchableOpacity onPress={apagarNota}>
+                    <Text style={styles.deleteBtnText}>Apagar Nota</Text>
+                </TouchableOpacity>
+            </View>
+        </View> 
     </View>
   );
 }
@@ -81,20 +116,80 @@ export default function DetalheNota({ route }) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 20,
+      backgroundColor:'#1D1E26',
     },
+
+    notesContainer: {
+        flex: 1,
+        backgroundColor: '#101014',
+        marginTop: responsiveWidth(10),
+        borderTopRightRadius: responsiveWidth(10),
+        borderTopLeftRadius: responsiveWidth(10),
+    },
+
+   
+    title: {
+        flex: 1,
+        flexDirection: 'row',
+        marginBottom: responsiveWidth(10),
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        alignItems: 'center',
+        //backgroundColor: 'tomato'
+    },
+
+     btnArrow: {
+      marginTop: responsiveWidth(3),
+      justifyContent: "center",
+      alignItems: "center",
+      width: responsiveWidth(10),
+      height: responsiveWidth(10),
+      resizeMode: "contain",
+      marginLeft: responsiveWidth(5)
+    },
+
+    btnArrowImg: {
+        width: responsiveWidth(5),
+        resizeMode: "contain",
+    },
+
+    inputContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+
     input: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 15,
-      borderBottomWidth: 1,
-      borderBottomColor: '#ccc',
+      fontSize: responsiveFontSize(5),
+      fontFamily: 'NanumMyeongjo',
+      color: 'white',
+      marginTop: responsiveWidth(3),
+      paddingRight: responsiveWidth(18)
     },
+
     inputArea: {
-      flex: 1,
+      flex: 5,
       fontSize: 18,
-      textAlignVertical: 'top', // Para Android
+      color: 'white',
+      paddingLeft: responsiveWidth(10),
+      paddingRight: responsiveWidth(10)
+      //textAlignVertical: 'top', // Para Android
     },
+
+    deleteBtn: {
+        fontSize: responsiveFontSize(2),
+        padding: 10,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#1D1E26',
+        width: responsiveWidth(30),
+        alignSelf: 'center',
+        marginBottom: responsiveWidth(2)
+    },
+    deleteBtnText: {
+        color: '#EA4335',
+        fontSize: responsiveFontSize(1.8),
+    }
   });
 
 

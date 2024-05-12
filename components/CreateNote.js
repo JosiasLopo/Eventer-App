@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Alert, TouchableOpacity, Image } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import { FIRESTORE_DB, auth } from '../config/firebase';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,14 @@ import Seta2 from "../src/assets/images/arrowLeft.png";
 export default function CriarNota({ navigation }) {
   const [titulo, setTitulo] = useState('');
   const [conteudo, setConteudo] = useState('');
+  const insets = useSafeAreaInsets();
+
+  const [isPlaceholderTitle, setIsPlaceholderTitle] = useState(true);
+  const [isPlaceholder, setIsPlaceholder] = useState(true);
+
+  const handleGoBack = () => {
+    navigation.goBack(); // Navega de volta para a página anterior
+  };
 
   const criarNota = async () => {
     try {
@@ -26,22 +34,66 @@ export default function CriarNota({ navigation }) {
     }
   };
 
+  const handleTitleChange = (title) => {
+    setTitulo(title);
+    if (title === '') {
+      setIsPlaceholderTitle(true); // Se o texto estiver vazio, o placeholder está ativo
+    } else {
+      setIsPlaceholderTitle(false); // Se o texto não estiver vazio, o placeholder está desativado
+    }
+  };
+
+  const handleTextChange = (text) => {
+    setConteudo(text);
+    if (text === '') {
+      setIsPlaceholder(true); // Se o texto estiver vazio, o placeholder está ativo
+    } else {
+      setIsPlaceholder(false); // Se o texto não estiver vazio, o placeholder está desativado
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <TextInput 
-        style={styles.input} 
-        placeholder="Título"
-        value={titulo} 
-        onChangeText={setTitulo}
-      />
-      <TextInput 
-        style={styles.inputArea} 
-        multiline={true} 
-        placeholder="Conteúdo da nota"
-        value={conteudo} 
-        onChangeText={setConteudo}
-      />
-      <Button title="Salvar Nota" onPress={criarNota} />
+    <View style={[styles.container,{paddingTop: insets.top }]}>
+        <View style={[styles.notesContainer, {paddingBottom: insets.bottom - 10}]}>
+            <View style={styles.title}>
+                 <TouchableOpacity style={styles.btnArrow} onPress={handleGoBack}  >
+                    <Image source={Seta2} style={styles.btnArrowImg} />
+                </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={styles.input} 
+                        placeholder="Título"
+                        placeholderTextColor="#818181"
+                        value={titulo} 
+                        onChangeText={(title) => {
+                            setTitulo(title); 
+                            handleTitleChange(title); 
+                        }}
+                        selectionColor="white" 
+
+                    />
+                </View>
+            </View>
+        
+                <TextInput 
+                    style={styles.inputArea} 
+                    multiline={true} 
+                    placeholder="Conteúdo da nota"
+                    placeholderTextColor="#818181"
+                    value={conteudo} 
+                    onChangeText={(text) => {
+                        setConteudo(text); 
+                        handleTextChange(text); 
+                    }}
+                    selectionColor="white" 
+                />
+
+            <View style={styles.deleteBtn}>
+                <TouchableOpacity onPress={criarNota}>
+                    <Text style={styles.deleteBtnText}>Salvar Nota</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     </View>
   );
 }
@@ -50,19 +102,82 @@ export default function CriarNota({ navigation }) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 20,
-      marginTop: 100,
+      backgroundColor:'#1D1E26',
     },
+
+    notesContainer: {
+        flex: 1,
+        backgroundColor: '#101014',
+        marginTop: responsiveWidth(10),
+        borderTopRightRadius: responsiveWidth(10),
+        borderTopLeftRadius: responsiveWidth(10),
+    },
+
+   
+    title: {
+        flex: 1,
+        flexDirection: 'row',
+        marginBottom: responsiveWidth(10),
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        alignItems: 'center',
+        //backgroundColor: 'tomato'
+    },
+
+     btnArrow: {
+      marginTop: responsiveWidth(3),
+      justifyContent: "center",
+      alignItems: "center",
+      width: responsiveWidth(10),
+      height: responsiveWidth(10),
+      resizeMode: "contain",
+      marginLeft: responsiveWidth(5)
+    },
+
+    btnArrowImg: {
+        width: responsiveWidth(5),
+        resizeMode: "contain",
+    },
+
+    inputContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+
     input: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 15,
-      borderBottomWidth: 1,
-      borderBottomColor: '#ccc',
+      fontSize: responsiveFontSize(5),
+      fontFamily: 'NanumMyeongjo',
+      color: 'white',
+      marginTop: responsiveWidth(3),
+      paddingRight: responsiveWidth(18)
     },
+
     inputArea: {
-      flex: 1,
+      flex: 5,
       fontSize: 18,
-      textAlignVertical: 'top', // Para Android
+      color: 'white',
+      paddingLeft: responsiveWidth(10),
+      paddingRight: responsiveWidth(10)
+      //textAlignVertical: 'top', // Para Android
     },
+
+    deleteBtn: {
+        fontSize: responsiveFontSize(2),
+        padding: 10,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#1D1E26',
+        width: responsiveWidth(30),
+        alignSelf: 'center',
+        marginBottom: responsiveWidth(2)
+    },
+    deleteBtnText: {
+        color: '#1563FF',
+        fontSize: responsiveFontSize(1.8),
+    }
   });
+
+
+
+// ... (styles)

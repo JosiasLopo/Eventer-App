@@ -134,14 +134,14 @@ const UploadScreen = () => {
               value={description} placeholder="Write your description" placeholderTextColor="gray"
               multiline={true} // Permite várias linhas
               numberOfLines={4} // Define um número máximo de linhas
-              maxLength={150} // Define um número máximo de caracteres
+              maxLength={60} // Define um número máximo de caracteres
               textAlignVertical="top" // Alinha o texto no topo do componente
               flexWrap="wrap" // Faz com que o texto envolva para baixo
             />
           </View> 
 
           <View style={styles.inputHashtag}>
-          <TextInput style={styles.inputHashtagTxt} onChangeText={setHashtags} 
+          <TextInput style={styles.inputHashtagTxt} onChangeText={setHashtags}  maxLength={35}
               value={hashtags} placeholder="#hashtag or second description" placeholderTextColor="gray"
             />
           </View>
