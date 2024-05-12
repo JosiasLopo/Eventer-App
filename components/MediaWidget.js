@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Image, Text, StyleSheet, Dimensions } from 'react-native';
-import { getStorage, ref, app, getDownloadURL, listAll } from 'firebase/storage';
+import { View, ScrollView, Image, TouchableOpacity, StyleSheet, Dimensions, Text , Alert} from 'react-native';
+import { getStorage, ref, app, getDownloadURL, listAll, deleteObject } from 'firebase/storage';
 import { getAuth } from 'firebase/auth'; 
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import { Ionicons } from '@expo/vector-icons'; 
 
 const PhotosPage = () => {
 
@@ -44,16 +45,61 @@ const PhotosPage = () => {
         return () => clearInterval(intervalId);
     }, [db, storage]);
 
+      const handleDelete = async (imageRefString) => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to delete this photo and its description?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Delete",
+                    onPress: async () => {
+                        try {
+                           
+                            const imageRef = ref(storage, imageRefString);
+                            await deleteObject(imageRef);
+
+                            
+                            const querySnapshot = await getDocs(query(collection(db, 'photoDescriptions'), where("imageRef", "==", imageRefString)));
+                            querySnapshot.forEach(async (doc) => {
+                                await deleteDoc(doc.ref);
+                            });
+
+                           
+                            setImageData(imageData.filter(data => data.imageRef !== imageRefString));
+                        } catch (error) {
+                            console.error("Error deleting image:", error);
+                           
+                        }
+                    },
+                    style: "destructive"
+                }
+            ]
+        );
+    };
+
+
     return (
         <View style={styles.container}>
             <ScrollView>
                 {imageData.map((data, index) => (
-                    <View key={index} style={{justifyContent: 'center', alignItems: 'center'}}>
-                            <Image source={{ uri: data.url }} style={styles.image} />
+                    <View key={index} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Image source={{ uri: data.url }} style={styles.image} />
+
                         <View style={styles.descriptionContainer}>
                             <Text style={styles.title}>{data.title}</Text>
                             <Text style={styles.description}>{data.description}</Text>
                             <Text style={styles.hashtags}>{data.hashtags}</Text>
+                            <TouchableOpacity
+                                style={styles.deleteButton}
+                                onPress={() => handleDelete(data.imageRef)}
+                            >
+                                    <Ionicons name="close-circle" size={responsiveWidth(5.8)} color="#898989" />
+
+                            </TouchableOpacity>
                         </View>
                     </View>
                 ))}
@@ -76,8 +122,8 @@ const styles = StyleSheet.create({
 
     
     image: {
-        width: width - 30,
-        height: responsiveHeight(27),
+        width: width - 60,
+        height: responsiveHeight(24),
         borderRadius: responsiveWidth(12),
         position: 'relative',
         top: 10,
@@ -88,8 +134,8 @@ const styles = StyleSheet.create({
     descriptionContainer: {
         marginBottom: responsiveWidth(5),
         backgroundColor: "#1D1E26",
-        width: responsiveWidth(80),
-        height: responsiveHeight(18),
+        width: responsiveWidth(75),
+        height: responsiveHeight(16),
         justifyContent: 'flex-start',
         paddingTop: responsiveWidth(5),
         paddingLeft: responsiveWidth(10),
@@ -97,6 +143,7 @@ const styles = StyleSheet.create({
         paddingBottom: responsiveWidth(2),
         borderBottomLeftRadius: responsiveWidth(12),
         borderBottomRightRadius: responsiveWidth(12),
+        
     },
 
     title: {
@@ -119,7 +166,13 @@ const styles = StyleSheet.create({
         fontFamily: "MPLUS1p",
         marginBottom: responsiveWidth(3.5),
         marginLeft: responsiveWidth(2)
-    }
+    },
+
+     deleteButton: {
+        position: 'absolute',
+        top: responsiveWidth(6),
+        right: responsiveWidth(10),
+    },
 });
 
 export default PhotosPage;

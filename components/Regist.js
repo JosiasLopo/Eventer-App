@@ -13,17 +13,28 @@ export default function Regist({ navigation }) {
 
   const [email, setEmail] = useState ('');
   const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   
-  const handleSubmit = async ()=>{
-    if(email && password && userName) {
+  const handleSubmit = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !password) {
+      setErrorMessage('Please enter your email and password.');
+    } else if (!emailRegex.test(email)) {
+      setErrorMessage('Please enter a valid email address.');
+    } else if (password.length < 6) {  
+      setErrorMessage('Password should be at least 6 characters long.');
+    } else {
       try {
-        await createUserWithEmailAndPassword(auth, email, password, userName);
-      } catch(err){
-        console.log('got erros', err.message);
+        await createUserWithEmailAndPassword(auth, email, password);
+        setErrorMessage(''); 
+        navigation.navigate("Login"); 
+      } catch (err) {
+        setErrorMessage(err.message); 
       }
     }
-  }
+  };
+
   
   const insets = useSafeAreaInsets();
 
@@ -68,7 +79,7 @@ export default function Regist({ navigation }) {
 
         <View style={styles.userData}>
 
-          <View style={styles.Password}>
+          <View style={styles.Name}>
             <Text style={styles.userNamePassword}>E-mail adress:</Text>
             <TextInput 
               placeholder=''
@@ -80,13 +91,22 @@ export default function Regist({ navigation }) {
 
           <View style={styles.Password}>
             <Text style={styles.userNamePassword}>Password:</Text>
-            <TextInput 
-              placeholder='' 
+            <TextInput
+              placeholder=""
+              style={styles.userInput}
               value={password}
               onChangeText={value => setPassword(value)}
-              style = {styles.userInput}/>
+              secureTextEntry={true} 
+            />
           </View>
+
+
+        {errorMessage !== '' && (
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        )}
+
         </View>
+        
 
         <View style={styles.googleRegisBtn}>
           <View style={styles.Login}>
@@ -252,6 +272,13 @@ const styles = StyleSheet.create({
   regisBtnLink: {
     color: '#1563FF',
     fontFamily: 'MPLUS1p',
+  },
+
+  errorMessage: {
+    color: '#EA4335',
+    fontFamily: 'MPLUS1p',
+    fontSize: responsiveFontSize(1.8),
+    marginTop: responsiveHeight(1),
   },
 
 

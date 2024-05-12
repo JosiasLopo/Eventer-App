@@ -197,7 +197,7 @@ export const styles = StyleSheet.create({
     borderRadius: 200,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#33365A',
+    backgroundColor: '#1D1E26',
     overflow: 'hidden'
   },
 

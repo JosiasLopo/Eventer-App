@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ScreensScreen from "./components/ScreensScreen";
 import Regist from "./components/Regist";
 import Hall from "./components/Hall";
 import Login from "./components/Login";
@@ -40,6 +41,7 @@ import HomeImg from './src/assets/images/Home.png';
 import Messages from './src/assets/images/Messages.png';
 import TodoImg from './src/assets/images/Todo.png';
 import NotesImg from './src/assets/images/Notes.png';
+import { CommonActions } from '@react-navigation/native'; 
 
 
 
@@ -64,9 +66,20 @@ function DrawerContent(props) {
     }, []);
 
 
-    const handleLogout = async() =>{
-        await signOut (auth);
+    const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      props.navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Hall' }], 
+        })
+      );
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
+  };
+
 
 
     return (
@@ -103,16 +116,16 @@ function DrawerContent(props) {
                                     marginTop: responsiveHeight(2),
                                   }}></View>
 
-                                  <View onPress={handleLogout()} style={{gap: responsiveWidth(4), marginTop:responsiveWidth(7), marginBottom: responsiveWidth(4)}}>
-                                    <TouchableOpacity style={{marginLeft: responsiveWidth(4), flexDirection: 'row', overflow: 'hidden', alignItems: 'center', gap: responsiveWidth(4)}}>
+                                  <View style={{gap: responsiveWidth(4), marginTop:responsiveWidth(7), marginBottom: responsiveWidth(4)}}>
+                                    <TouchableOpacity onPress={handleLogout} style={{marginLeft: responsiveWidth(4), flexDirection: 'row', overflow: 'hidden', alignItems: 'center', gap: responsiveWidth(4)}}>
                                       <Image source={Logout} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}} />
                                       <Text style={{color: 'white', fontSize: responsiveFontSize(2), fontFamily: "MPLUS1p"}}>Logout</Text>
                                     </TouchableOpacity>
                                     
                                     <View style={{marginLeft: responsiveWidth(4), flexDirection: 'row', overflow: 'hidden', alignItems: 'center', gap: responsiveWidth(4)}}>
-                                      <TouchableOpacity><Image source={Insta} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}}/></TouchableOpacity>
-                                      <TouchableOpacity><Image source={Git} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}}/></TouchableOpacity>
-                                      <TouchableOpacity><Image source={Link} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}}/></TouchableOpacity>
+                                      <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/josiaslopo_/')}><Image source={Insta} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}}/></TouchableOpacity>
+                                      <TouchableOpacity onPress={() => Linking.openURL('https://github.com/JosiasLopo')}><Image source={Git} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}}/></TouchableOpacity>
+                                      <TouchableOpacity onPress={() => Linking.openURL('https://www.josias.pt')}><Image source={Link} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}}/></TouchableOpacity>
                                     </View>
 
                                     <TouchableOpacity onPress={() => Linking.openURL('https://www.josias.pt')} style={{alignSelf: 'center',marginTop: responsiveWidth(5),flexDirection: 'row', width: responsiveWidth(40),alignItems: 'center',justifyContent: 'center', gap: responsiveWidth(4), backgroundColor: '#101014', padding: responsiveWidth(3.5), borderRadius: 100,}}>
@@ -167,8 +180,8 @@ const DrawerNav=()=>{
         backgroundColor: '#1D1E26',
       },
       drawerItemStyle: {
-        backgroundColor: 'transparent', 
-        height: 60, 
+        backgroundColor: 'transparent', // Remove background color
+        height: 60, // Adjust item height if needed
       },
     }}
   >

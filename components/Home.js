@@ -126,7 +126,7 @@ return (
                 <Text style={styles.userTxt}>{userEmail.split('@')[0].replace(/\.| /g, '')}</Text>
             </View>
 
-            <View style={[styles.eventTypeDate, { marginBottom: responsiveWidth(-6),paddingLeft: responsiveWidth(5.5),  paddingEnd: responsiveWidth(5.5)}]}>
+            <View style={[styles.eventTypeDate, { marginBottom: responsiveWidth(-2.5),paddingLeft: responsiveWidth(5.5),  paddingEnd: responsiveWidth(5.5)}]}>
                     <Text style={styles.eventTypeDisplay}>Eventer</Text>
                     <TouchableOpacity style={styles.eventTypeDate} onPress={handleOpenCalendar}>
                         <Text style={styles.eventDate}>{formattedDate}</Text>
@@ -303,6 +303,7 @@ export const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'NanumMyeongjoBold',
         fontSize: responsiveFontSize(6),
+        marginLeft: responsiveWidth(3)
     },
 
     eventTypeDate: {
@@ -341,7 +342,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: responsiveWidth(8),
+        marginBottom: responsiveWidth(10),
     },
 
 
@@ -351,7 +352,8 @@ export const styles = StyleSheet.create({
 
     WidgetsContainer: {
         justifyContent: 'center',
-        alignItems: 'center',        
+        alignItems: 'center',     
+        marginTop: responsiveWidth(2),   
     },
 
     WidgetsView: {

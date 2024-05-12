@@ -74,11 +74,11 @@ const [user, setUser] = useState(null);
                 {item.done ? <Ionicons name="checkmark-circle" size={32} color="green"  /> : <Ionicons name="radio-button-off" size={32} color="white" />}
                 <Text style={styles.todoText}>{item.title}</Text>
             </TouchableOpacity>
-            <Entypo name="trash" size={20} color="#FF6060" onPress={() => deleteItem(item.id)}  />
+            <Ionicons name="close-circle" size={responsiveWidth(5.8)} color="#FF6060" onPress={() => deleteItem(item.id)} />
             </View>
         );
     };
-
+//FF6060
     return (
         <View style={styles.container}>
         <View style={styles.containerTodo}>
@@ -105,7 +105,7 @@ const [user, setUser] = useState(null);
                     value={todo}
                 />
                 <TouchableOpacity style={styles.ButtonAdd} onPress={addTodo} disabled={todo === ''}>
-                    <Text style={styles.TextAdd}>Add Todo</Text>
+                    <Text style={styles.TextAdd}>ADD</Text>
             </TouchableOpacity>
             </View>
         </View>
@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
 
     containerTodo: {
         flex: 1,
-        paddingLeft: responsiveWidth(7),
-        paddingRight: responsiveWidth(7),
+        paddingLeft: responsiveWidth(10),
+        paddingRight: responsiveWidth(10),
         paddingTop: responsiveWidth(5),
         backgroundColor: '#101014',
         borderTopLeftRadius: responsiveWidth(10),
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     TextAdd: {
         color:"blue", 
         fontFamily:"MPLUS1p", 
-        fontSize: responsiveFontSize("2")
+        fontSize: responsiveFontSize(2)
     },
 
     todo: {

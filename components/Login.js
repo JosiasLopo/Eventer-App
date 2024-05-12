@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, TextInput, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView } from 'react-native';
+import { Image, TextInput, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform , ScrollView} from 'react-native';
 import { useFonts } from 'expo-font';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,16 +15,26 @@ export default function Login({ navigation }) {
 
   const [email, setEmail] = useState ('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   
-  const handleSubmit = async ()=>{
-    if(email && password) {
+ const handleSubmit = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !password) {
+      setErrorMessage('Please enter your email and password.');
+    } else if (!emailRegex.test(email)) {
+      setErrorMessage('Please enter a valid email address.');
+    } else {
       try {
         await signInWithEmailAndPassword(auth, email, password);
-      } catch(err){
-        console.log('got erros', err.message);
+        setErrorMessage(''); 
+      } catch (err) {
+        setErrorMessage('Invalid email or password.');
       }
     }
-  }
+  };
+
 
   const [loaded] = useFonts({
     NanumMyeongjo: require('../src/assets/fonts/NanumMyeongjo-Regular.ttf'),
@@ -46,6 +56,8 @@ export default function Login({ navigation }) {
       
     <View style={[styles.container,{paddingTop: insets.top + responsiveWidth(5), paddingBottom: insets.bottom, paddingLeft: insets.left + responsiveWidth(3), paddingRight: insets.left + responsiveWidth(3)}]}>
       
+
+      
       <TouchableOpacity style={styles.btnBack} onPress={() => navigation.navigate("Hall")}>
           <View  style={styles.btnArrow}>
             <Image source = {Seta2} style={styles.btnArrowImg}/>
@@ -56,7 +68,6 @@ export default function Login({ navigation }) {
 
       <View style={styles.loginContent}>
 
-
         <View style={styles.logoContent}>
           <Text style={styles.logo}>
             Eventer
@@ -65,7 +76,9 @@ export default function Login({ navigation }) {
           </View>
 
 
-        <View style={styles.userData}>
+        <View 
+        style={[styles.userData, { flex: 1 }]}
+      > 
 
           <View style={styles.Name}>
             <Text style={styles.userNamePassword}>E-mail adress:</Text>
@@ -74,16 +87,24 @@ export default function Login({ navigation }) {
               onChangeText={value => setEmail(value)}/>
           </View>
 
-          <View style={styles.Password}>
-            <Text style={styles.userNamePassword}>Password:</Text>
-            <TextInput placeholder='' style = {styles.userInput}
-              value={password}
-              onChangeText={value => setPassword(value)}
-            />
-          </View>
-        </View>
+        <View style={styles.Password}>
+                  <Text style={styles.userNamePassword}>Password:</Text>
+                  <TextInput
+                    placeholder=""
+                    style={styles.userInput}
+                    value={password}
+                    onChangeText={value => setPassword(value)}
+                    secureTextEntry={true} 
+                  />
+                </View>
+              </View>
 
-       
+              {errorMessage !== '' && ( 
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
+              )}
+
+              
+        </View>
 
         <View style={styles.googleRegisBtn}>
           <View style={styles.Login}>
@@ -100,8 +121,6 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
         </View>
 
-      </View>
-
     </View>
 
   );
@@ -113,6 +132,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#101014',
     
   },
+
+  scrollContainer: {
+    flexGrow: 0.1,
+ },
 
 
 
@@ -159,7 +182,7 @@ const styles = StyleSheet.create({
 
 
   loginContent: {
-    flex: 1,
+    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -244,6 +267,14 @@ const styles = StyleSheet.create({
     color: '#1563FF',
     fontFamily: 'MPLUS1p',
   },
+
+    errorMessage: {
+      color: '#EA4335',
+      fontFamily: 'MPLUS1p',
+      fontSize: responsiveFontSize(1.8),
+      marginTop: responsiveHeight(1),
+    },
+
 
 
 });

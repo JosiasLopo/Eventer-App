@@ -60,10 +60,12 @@ const styles = StyleSheet.create({
     width: responsiveWidth(62),
     height: responsiveWidth(62),
     position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   image: {
-    width: responsiveWidth(62),
-    height: responsiveWidth(62),
+    width: responsiveWidth(50),
+    height: responsiveWidth(50),
     resizeMode: 'contain',
     position: 'absolute',
     zIndex: 1,

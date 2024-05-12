@@ -7,13 +7,12 @@ import { getStorage, ref } from 'firebase/storage';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBf0JtWLL-jsfyz1MLTL_RTj3qPGn2drBQ",
-  authDomain: "eventer-connect.firebaseapp.com",
-  projectId: "eventer-connect",
-  storageBucket: "eventer-connect.appspot.com",
-  messagingSenderId: "427065531130",
-  appId: "1:427065531130:web:33d151d845c48de6bd8743",
-  measurementId: "G-G7CZY8H6QB"
+  apiKey: "AIzaSyAs5CYdcyUtwxjWzGoDJv-g5R_66TtSYnQ",
+  authDomain: "eventer-5e73c.firebaseapp.com",
+  projectId: "eventer-5e73c",
+  storageBucket: "eventer-5e73c.appspot.com",
+  messagingSenderId: "1005598476049",
+  appId: "1:1005598476049:web:ed2e26795ff7e284892eb0"
 };
 
 const app = initializeApp(firebaseConfig);

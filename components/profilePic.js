@@ -50,6 +50,7 @@ const ProfileScreen = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,10 +61,12 @@ const styles = StyleSheet.create({
     width: responsiveWidth(12),
     height: responsiveWidth(12),
     position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: responsiveWidth(7),
+    height: responsiveWidth(7),
     resizeMode: 'contain',
     position: 'absolute',
     zIndex: 1,
