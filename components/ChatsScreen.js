@@ -210,4 +210,4 @@ const styles = StyleSheet.create({
     width: responsiveWidth(40),
   },
 
-});
+}); 

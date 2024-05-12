@@ -3,15 +3,9 @@ import { Image, TextInput, StyleSheet, Text, TouchableOpacity, View, KeyboardAvo
 import { useFonts } from 'expo-font';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-//import Multidao from "../assets/images/unsplash_6liebVeAfrY.png";
-//import Seta from "../../assets/images/Vector.png";
 import Seta2 from "../src/assets/images/arrowLeft.png";
-//import Logo from "../assets/images/eventerLogorsz.png";
-//import Bola from "../assets/images/Rectangle 21.png";
 import GLogo from "../src/assets/images/googlelogo.png";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-//import GButt from "../../assets/goobutt.png";
-//import Reg from "../../assets/Group 27.png";
 import { Auth, auth } from '../config/firebase';
 
 
@@ -57,7 +51,7 @@ export default function Regist({ navigation }) {
           <View  style={styles.btnArrow}>
             <Image source = {Seta2} style={styles.btnArrowImg}/>
           </View>  
-            <Text style={styles.txtLoginBtn}> Registo</Text>
+            <Text style={[styles.txtLoginBtn, {marginLeft: responsiveWidth(3)}]}>Register</Text>
       </TouchableOpacity>
 
 
@@ -74,17 +68,8 @@ export default function Regist({ navigation }) {
 
         <View style={styles.userData}>
 
-          <View style={styles.Name}>
-            <Text style={styles.userNamePassword}>Nome Completo</Text>
-            <TextInput 
-              placeholder=''  
-              value={userName}
-              onChangeText={value => setUserName(value)}
-              style = {styles.userInput }/>
-          </View>
-
           <View style={styles.Password}>
-            <Text style={styles.userNamePassword}>Endereço de Email</Text>
+            <Text style={styles.userNamePassword}>E-mail adress:</Text>
             <TextInput 
               placeholder=''
               value={email}
@@ -94,7 +79,7 @@ export default function Regist({ navigation }) {
           </View>
 
           <View style={styles.Password}>
-            <Text style={styles.userNamePassword}>Palavra-Passe</Text>
+            <Text style={styles.userNamePassword}>Password:</Text>
             <TextInput 
               placeholder='' 
               value={password}
@@ -113,8 +98,8 @@ export default function Regist({ navigation }) {
           </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.regisBtn} onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.regisBtnTxt}>Já tens conta? </Text>
-            <Text style={styles.regisBtnLink}>Inicia Sessão</Text>
+            <Text style={styles.regisBtnTxt}>Have an account? </Text>
+            <Text style={styles.regisBtnLink}>Login</Text>
           </TouchableOpacity>
         </View>
 
@@ -208,7 +193,7 @@ const styles = StyleSheet.create({
 
   userData: {
     //backgroundColor: 'gray',
-    flex: 1.5,
+    flex: 1,
     width: responsiveHeight(33),
   },
 
@@ -236,7 +221,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: responsiveWidth(0.10),
   },
 
-    Login: {
+  Login: {
     paddingTop: responsiveHeight(3),
     flex: 0.70,
     flexDirection: 'row',
@@ -270,9 +255,4 @@ const styles = StyleSheet.create({
   },
 
 
-
-
-
-
-  //exp://192.168.1.9:8081
 });

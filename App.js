@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ScreensScreen from "./components/ScreensScreen";
 import Regist from "./components/Regist";
 import Hall from "./components/Hall";
 import Login from "./components/Login";
@@ -18,6 +17,7 @@ import { Avatar, Icon,Title } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 import { auth } from './config/firebase';
+import { signOut } from 'firebase/auth';
 import 'firebase/auth';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { Ionicons, Entypo } from '@expo/vector-icons'; 
@@ -103,7 +103,7 @@ function DrawerContent(props) {
                                     marginTop: responsiveHeight(2),
                                   }}></View>
 
-                                  <View onPress={(handleLogout)} style={{gap: responsiveWidth(4), marginTop:responsiveWidth(7), marginBottom: responsiveWidth(4)}}>
+                                  <View onPress={handleLogout()} style={{gap: responsiveWidth(4), marginTop:responsiveWidth(7), marginBottom: responsiveWidth(4)}}>
                                     <TouchableOpacity style={{marginLeft: responsiveWidth(4), flexDirection: 'row', overflow: 'hidden', alignItems: 'center', gap: responsiveWidth(4)}}>
                                       <Image source={Logout} style={{height: responsiveWidth(5), width: responsiveWidth(5), resizeMode: "contain",}} />
                                       <Text style={{color: 'white', fontSize: responsiveFontSize(2), fontFamily: "MPLUS1p"}}>Logout</Text>
@@ -158,7 +158,7 @@ const DrawerNav=()=>{
   const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator
-    drawerContent={(props) => <DrawerContent {...props} />} // Adicione isso para integrar o DrawerContent
+    drawerContent={(props) => <DrawerContent {...props} />} 
     screenOptions={{
       drawerLabel: 'Home',
       headerShown: false,
@@ -167,8 +167,8 @@ const DrawerNav=()=>{
         backgroundColor: '#1D1E26',
       },
       drawerItemStyle: {
-        backgroundColor: 'transparent', // Remove background color
-        height: 60, // Adjust item height if needed
+        backgroundColor: 'transparent', 
+        height: 60, 
       },
     }}
   >

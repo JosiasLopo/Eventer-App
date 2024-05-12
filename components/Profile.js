@@ -174,7 +174,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: responsiveWidth(10),
-    //backgroundColor: 'tomato',
   },
 
 
@@ -229,8 +228,8 @@ export const styles = StyleSheet.create({
     zIndex: 2,
     marginLeft: responsiveWidth(52),
     position: 'relative',
-    bottom: responsiveWidth(9), // Define a distância entre o botão e a parte inferior
-    alignSelf: 'center', // Centraliza o botão horizontalmente
+    bottom: responsiveWidth(9), 
+    alignSelf: 'center', 
   },
 
    cameraImg2: {

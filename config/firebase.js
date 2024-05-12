@@ -5,8 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage, ref } from 'firebase/storage';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
   apiKey: "AIzaSyBf0JtWLL-jsfyz1MLTL_RTj3qPGn2drBQ",
   authDomain: "eventer-connect.firebaseapp.com",
@@ -20,11 +19,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 
-// Initialize Firebase
-
 
 export const auth = getAuth(app);
 export const FIRESTORE_DB = getFirestore(app);
-export const storage = getStorage(app); // Obtenha a referência para o serviço de armazenamento
+export const storage = getStorage(app); 
 
 

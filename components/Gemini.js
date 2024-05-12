@@ -191,7 +191,6 @@ const styles = StyleSheet.create({
     marginLeft: responsiveWidth(7),
     height: responsiveWidth(15),
     resizeMode: "contain",
-    //borderRadius: '100%',
   },
 
   btnArrowImg: {

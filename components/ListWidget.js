@@ -2,33 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Button, FlatList, TouchableOpacity, Text } from 'react-native';
 import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebase';
-import { Ionicons, Entypo } from '@expo/vector-icons'; // Certifique-se de importar esses ícones corretamente
+import { Ionicons, Entypo } from '@expo/vector-icons'; 
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
-import { getAuth, onAuthStateChanged, currentUser } from 'firebase/auth'; // Import Firebase Auth
+import { getAuth, onAuthStateChanged, currentUser } from 'firebase/auth'; 
 
 
 
 const ListWidget = () => {
     const [todo, setTodo] = useState('');
     const [todos, setTodos] = useState([]);
-    const [user, setUser] = useState(null); // State to store user information
+    const [user, setUser] = useState(null); 
 
     useEffect(() => {
-        const auth = getAuth(); // Get Auth instance
+        const auth = getAuth(); 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser); // Update user state on auth change
+        setUser(currentUser); 
         });
 
-        return () => unsubscribe(); // Clean up listener on unmount
+        return () => unsubscribe();
     }, []);
 
     const addTodo = async () => {
-        if (user) { // Check if user is logged in
+        if (user) { 
         try {
             const docRef = await addDoc(collection(FIRESTORE_DB, 'todos'), {
             title: todo,
             done: false,
-            email: user.email // Add user's email
+            email: user.email 
             });
             setTodo('');
             console.log('Document written with ID: ', docRef.id);
@@ -36,7 +36,7 @@ const ListWidget = () => {
             console.error('Error adding document: ', e);
         }
         } else {
-        // Handle case where no user is logged in (e.g., show an error message)
+       
         }
     };
 
@@ -46,7 +46,7 @@ const ListWidget = () => {
         const unsubscribe = onSnapshot(todoRef, (snapshot) => {
         const todos = [];
         snapshot.docs.forEach((doc) => {
-            if (doc.data().email === user?.email) { // Filter by email
+            if (doc.data().email === user?.email) { 
             todos.push({
                 id: doc.id,
                 ...doc.data(),
@@ -57,7 +57,7 @@ const ListWidget = () => {
         });
 
         return () => unsubscribe();
-    }, [user]); // Include user in d
+    }, [user]); 
         const toggleDone = async (itemId, done) => {
             const todoRef = doc(FIRESTORE_DB, 'todos', itemId);
             await updateDoc(todoRef, { done: !done });
@@ -89,7 +89,7 @@ const ListWidget = () => {
                     data={todos}
                     renderItem={renderTodo}
                     keyExtractor={(todo) => todo.id}
-                    // removeClippedSubviews={true}
+                    
                 />
             )}
         

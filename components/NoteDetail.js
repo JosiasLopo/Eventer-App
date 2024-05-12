@@ -12,11 +12,11 @@ export default function DetalheNota({ route }) {
   const [titulo, setTitulo] = useState('');
   const [conteudo, setConteudo] = useState('');
   const [shouldSave, setShouldSave] = useState(false);
-  const navigation = useNavigation(); // Hook para navegação
+  const navigation = useNavigation(); 
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    // ... (carregar nota - mesma lógica)
+    
     const carregarNota = async () => {
       const docRef = doc(FIRESTORE_DB, 'notas', notaId);
       const docSnap = await getDoc(docRef);
@@ -32,43 +32,43 @@ export default function DetalheNota({ route }) {
       timeoutId = setTimeout(() => {
         salvarNota();
         setShouldSave(false);
-      }, 10000); // 5000 milissegundos = 5 segundos
+      }, 10000); 
     }
 
     return () => clearTimeout(timeoutId);
   }, [shouldSave]);
 
   const salvarNota = async () => {
-    // ... (salvar nota - mesma lógica)
+
         const docRef = doc(FIRESTORE_DB, 'notas', notaId);
     await updateDoc(docRef, { titulo, conteudo });
   };
 
   const handleBlur = () => {
-    setShouldSave(true); // Define shouldSave como true após o blur
+    setShouldSave(true);
   };
 
   const handlePress = () => {
     salvarNota();
-    navigation.goBack(); // Navega de volta para a página anterior
+    navigation.goBack();
   };
 
   const apagarNota = async () => {
     Alert.alert(
-      "Apagar Nota",
-      "Tem certeza que deseja apagar esta nota?",
+      "Delete Note",
+      "Are you sure you want to DELETE?",
       [
-        { text: "Cancelar", style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: "Apagar",
+          text: "Delete",
           style: "destructive",
           onPress: async () => {
             try {
               await deleteDoc(doc(FIRESTORE_DB, 'notas', notaId));
-              navigation.goBack(); // Voltar para a lista de notas
+              navigation.goBack(); 
             } catch (error) {
-              console.error("Erro ao apagar nota:", error);
-              // Tratar erro (ex: exibir alerta)
+              console.error("Error deleting note:", error);
+              
             }
           },
         },
@@ -102,16 +102,13 @@ export default function DetalheNota({ route }) {
 
             <View style={styles.deleteBtn}>
                 <TouchableOpacity onPress={apagarNota}>
-                    <Text style={styles.deleteBtnText}>Apagar Nota</Text>
+                    <Text style={styles.deleteBtnText}>Delete Note</Text>
                 </TouchableOpacity>
             </View>
         </View> 
     </View>
   );
 }
-
-// ... (styles - mesmos estilos)
-
 
 const styles = StyleSheet.create({
     container: {
@@ -135,7 +132,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         alignItems: 'center',
-        //backgroundColor: 'tomato'
     },
 
      btnArrow: {
@@ -172,7 +168,7 @@ const styles = StyleSheet.create({
       color: 'white',
       paddingLeft: responsiveWidth(10),
       paddingRight: responsiveWidth(10)
-      //textAlignVertical: 'top', // Para Android
+
     },
 
     deleteBtn: {
@@ -193,5 +189,3 @@ const styles = StyleSheet.create({
   });
 
 
-
-// ... (styles)

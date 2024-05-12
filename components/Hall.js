@@ -32,13 +32,13 @@ export default function Hall({ navigation }) {
     <View style={[styles.container,{paddingTop: insets.top + responsiveWidth(5), paddingBottom: insets.bottom}]}>
       
       <View style={[styles.title, {paddingLeft: insets.left + responsiveWidth(4)}]}>
-        <Text style={styles.txt1}>Melhora o teu</Text>
+        <Text style={styles.txt1}>Improve your</Text>
       </View>
 
       <ImageBackground
       source={require('../src/assets/images/intro-bg.jpg')} style={[styles.bgImg,{paddingLeft: insets.left + responsiveWidth(4)}]}>
 
-        <Text style={styles.txt2}>Evento</Text>
+        <Text style={styles.txt2}>Event</Text>
       </ImageBackground>
 
       <TouchableOpacity style={styles.containerOu} onPress={() => navigation.navigate("Login")}>
@@ -51,10 +51,10 @@ export default function Hall({ navigation }) {
         <View style={styles.googleRegisBtn}>
           <TouchableOpacity style={styles.googleBtn} onPress={() => navigation.navigate('Home')}>
             <Image source = {GLogo} style={styles.googleBtnLogo}/>
-            <Text style={styles.googleBtnTxt}>Continua com Google</Text>
+            <Text style={styles.googleBtnTxt}>Continue with Google</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.regisBtn} onPress={() => navigation.navigate("Regist")}>
-            <Text style={styles.regisBtnTxt}>Regista-te</Text>
+            <Text style={styles.regisBtnTxt}>Register</Text>
           </TouchableOpacity>
         </View>
 

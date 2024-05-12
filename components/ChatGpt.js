@@ -44,7 +44,7 @@ export default function ChatGpt() {
 
   const sendMessage = async () => {
     const userMessage = { role: "user", content: inputText };
-    setInputText(""); // Clear input field
+    setInputText(""); 
 
     try {
       const response = await axios.post(
@@ -58,7 +58,7 @@ export default function ChatGpt() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer sk-proj-Z1Ajya69IBOyKQA0mdfMT3BlbkFJSuZIGj78evtVB9VRpwFF", // Replace with your OpenAI API key
+              "Bearer sk-proj-Z1Ajya69IBOyKQA0mdfMT3BlbkFJSuZIGj78evtVB9VRpwFF", 
           },
         }
       );
@@ -67,9 +67,9 @@ export default function ChatGpt() {
         content: response.data.choices[0].message.content,
       };
 
-      const updatedMessages = [...messages, userMessage, botMessage]; // Append new messages
-      setMessages(updatedMessages); // Update state with all messages
-      saveMessages(updatedMessages); // Save updated messages to AsyncStorage
+      const updatedMessages = [...messages, userMessage, botMessage]; 
+      setMessages(updatedMessages); 
+      saveMessages(updatedMessages); 
     } catch (error) {
       console.error("Error sending message:", error);
     }

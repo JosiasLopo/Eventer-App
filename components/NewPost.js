@@ -23,7 +23,7 @@ const UploadScreen = () => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [hashtags, setHashtags] = useState(''); // Consider a way to manage multiple hashtags
+  const [hashtags, setHashtags] = useState(''); 
 
 
 
@@ -64,9 +64,9 @@ const UploadScreen = () => {
         console.log("const storageRef");
 
         try {
-          //wait uploadBytes(storageRef, blob);
-           uploadBytes(storageRef, blob);    // Now you should be able to upload
-            // ... rest of your upload logic
+          
+           uploadBytes(storageRef, blob);   
+            
          } catch (e) {
            console.log("Upload Error:", e);
         }
@@ -80,8 +80,8 @@ const UploadScreen = () => {
         const docRef = await addDoc(collection(db, "photoDescriptions"), {
             title: title, 
             description: description, 
-            hashtags: hashtags, // Consider how to store an array of hashtags
-            imageRef: storageRef.toString(), // Store the image reference without modification
+            hashtags: hashtags, 
+            imageRef: storageRef.toString(), 
             userID: uid 
         });
           console.log("Document written with ID: ", docRef.id);
@@ -132,11 +132,11 @@ const UploadScreen = () => {
           <View style={styles.inputDescription}>
             <TextInput style={styles.inputDescriptionTxt} onChangeText={setDescription} 
               value={description} placeholder="Write your description" placeholderTextColor="gray"
-              multiline={true} // Permite várias linhas
-              numberOfLines={4} // Define um número máximo de linhas
-              maxLength={60} // Define um número máximo de caracteres
-              textAlignVertical="top" // Alinha o texto no topo do componente
-              flexWrap="wrap" // Faz com que o texto envolva para baixo
+              multiline={true} 
+              numberOfLines={4} 
+              maxLength={60} 
+              textAlignVertical="top" 
+              flexWrap="wrap"
             />
           </View> 
 

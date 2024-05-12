@@ -40,5 +40,3 @@ const styles = StyleSheet.create({
 });
 
 export default ChatBubble;
-
-//18:50 https://www.youtube.com/watch?v=ZXdJ04Q1ksE

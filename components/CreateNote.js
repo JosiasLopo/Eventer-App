@@ -17,7 +17,7 @@ export default function CriarNota({ navigation }) {
   const [isPlaceholder, setIsPlaceholder] = useState(true);
 
   const handleGoBack = () => {
-    navigation.goBack(); // Navega de volta para a página anterior
+    navigation.goBack(); 
   };
 
   const criarNota = async () => {
@@ -29,26 +29,26 @@ export default function CriarNota({ navigation }) {
       });
       navigation.goBack();
     } catch (error) {
-      console.error("Erro ao criar nota:", error);
-      // Adicionar tratamento de erro para o usuário (ex: exibir um alerta)
+      console.error("Error creating a note:", error);
+      
     }
   };
 
   const handleTitleChange = (title) => {
     setTitulo(title);
     if (title === '') {
-      setIsPlaceholderTitle(true); // Se o texto estiver vazio, o placeholder está ativo
+      setIsPlaceholderTitle(true); 
     } else {
-      setIsPlaceholderTitle(false); // Se o texto não estiver vazio, o placeholder está desativado
+      setIsPlaceholderTitle(false); 
     }
   };
 
   const handleTextChange = (text) => {
     setConteudo(text);
     if (text === '') {
-      setIsPlaceholder(true); // Se o texto estiver vazio, o placeholder está ativo
+      setIsPlaceholder(true);
     } else {
-      setIsPlaceholder(false); // Se o texto não estiver vazio, o placeholder está desativado
+      setIsPlaceholder(false);
     }
   };
 
@@ -62,7 +62,7 @@ export default function CriarNota({ navigation }) {
                 <View style={styles.inputContainer}>
                     <TextInput 
                         style={styles.input} 
-                        placeholder="Título"
+                        placeholder="Title"
                         placeholderTextColor="#818181"
                         value={titulo} 
                         onChangeText={(title) => {
@@ -78,7 +78,7 @@ export default function CriarNota({ navigation }) {
                 <TextInput 
                     style={styles.inputArea} 
                     multiline={true} 
-                    placeholder="Conteúdo da nota"
+                    placeholder="Write your note..."
                     placeholderTextColor="#818181"
                     value={conteudo} 
                     onChangeText={(text) => {
@@ -90,7 +90,7 @@ export default function CriarNota({ navigation }) {
 
             <View style={styles.deleteBtn}>
                 <TouchableOpacity onPress={criarNota}>
-                    <Text style={styles.deleteBtnText}>Salvar Nota</Text>
+                    <Text style={styles.deleteBtnText}>Save Note</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -98,7 +98,6 @@ export default function CriarNota({ navigation }) {
   );
 }
 
-// ... (styles - mesmos estilos do DetalheNota.js)
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -179,5 +178,3 @@ const styles = StyleSheet.create({
   });
 
 
-
-// ... (styles)

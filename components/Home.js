@@ -30,28 +30,28 @@ export default function Home() {
     const navigation = useNavigation();
     const currentDate = new Date();
     const options = { month: 'long', day: 'numeric' };
-    const formattedDate = currentDate.toLocaleDateString('pt-PT', options);
-    //pt-PT pt-BR
+    const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
 
     const handleOpenCalendar = () => {
         Linking.openURL('content://com.android.calendar/time/');
-        Linking.openURL('calshow://'); // Universal URL scheme for opening the calendar app
+        Linking.openURL('calshow://'); 
     };
 
 
-const [userEmail, setUserEmail] = useState(''); // State to store user's email
+const [userEmail, setUserEmail] = useState('');
 
 useEffect(() => {
-    // Fetch user's email from Firebase
+    
     const unsubscribe = auth.onAuthStateChanged((user) => {
     if (user) {
         setUserEmail(user.email);
     } else {
-        setUserEmail(''); // Clear email if user is not signed in
+        setUserEmail(''); 
     }
     });
 
-    // Cleanup function to unsubscribe when the component unmounts
+    
     return () => unsubscribe();
 }, []);
 
@@ -121,7 +121,7 @@ return (
             </View>
 
             <View style={styles.welcomeTxt}>
-                <Text style={styles.Welcome}>Bem Vindo</Text>
+                <Text style={styles.Welcome}>Welcome</Text>
                 
                 <Text style={styles.userTxt}>{userEmail.split('@')[0].replace(/\.| /g, '')}</Text>
             </View>
@@ -166,7 +166,7 @@ return (
                 <View style={styles.WidgetsView}>
                     <View style={styles.ToDoHeader}>
                         <View style={{justifyContent:'left', alignItems:'left'}}>
-                            <Text style={styles.ToDoTitle}>Todo List</Text>
+                            <Text style={styles.ToDoTitle}>To-do List</Text>
                         </View>
                             <View style={{justifyContent:'right', alignItems:'right'}}>
                                 <TouchableOpacity style={styles.TodoAddBtn}><Text style={styles.TodoAddText} onPress={() => navigation.navigate("Todo")}><Ionicons name="arrow-forward" size={responsiveWidth(5)} color="white"  /></Text></TouchableOpacity>
@@ -282,7 +282,7 @@ export const styles = StyleSheet.create({
         resizeMode: "cover",
         overflow: "hidden",
         borderRadius: 100,
-        position: 'absolute', // Para sobrepor
+        position: 'absolute', 
     },
 
     welcomeTxt: {
@@ -360,9 +360,9 @@ export const styles = StyleSheet.create({
         backgroundColor: '#1D1E26',
         paddingTop: responsiveWidth(2),
         justifyContent: "center",
-        borderTopLeftRadius: responsiveWidth(10), // Meia circunferência
-        borderTopRightRadius: responsiveWidth(10), // Meia circunferência
-        overflow: 'hidden', // Para garantir que a imagem respeite a borda arredondada
+        borderTopLeftRadius: responsiveWidth(10), 
+        borderTopRightRadius: responsiveWidth(10),
+        overflow: 'hidden', 
         marginBottom: 1,
     },
 
@@ -377,7 +377,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
-        //justifyContent: "flex-end",
+
     },
 
     ToDoTitle: {

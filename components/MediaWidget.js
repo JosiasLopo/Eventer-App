@@ -8,8 +8,8 @@ import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-nat
 const PhotosPage = () => {
 
     const [imageData, setImageData] = useState([]);
-    const db = getFirestore(app); // Initialize Firestore at the top level
-    const storage = getStorage(app); // Initialize storage at the top level
+    const db = getFirestore(app); 
+    const storage = getStorage(app);
 
     useEffect(() => {
         const fetchImages = async () => {
@@ -24,7 +24,7 @@ const PhotosPage = () => {
             const imageUrls = await Promise.all(listResult.items.map(async imageRef => { 
                 const url = await getDownloadURL(imageRef);
 
-                // Retrieve image metadata from Firestore
+
                 const querySnapshot = await getDocs(query(collection(db, 'photoDescriptions'), where("imageRef", "==", imageRef.toString())));
                 let imageData = {};
                 querySnapshot.forEach((doc) => {
@@ -38,10 +38,9 @@ const PhotosPage = () => {
  
         fetchImages();
 
-        // Atualiza a lista de imagens a cada 60 segundos
+
         const intervalId = setInterval(fetchImages, 10000);
 
-        // Limpa o intervalo quando o componente é desmontado
         return () => clearInterval(intervalId);
     }, [db, storage]);
 

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 const Menu = ({ navigation }) => {
   const menuItems = [
     { title: 'Home', screenName: 'Home' },
-    // Add additional menu items as needed
+
   ];
 
   return (

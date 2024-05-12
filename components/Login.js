@@ -3,16 +3,10 @@ import { Image, TextInput, StyleSheet, Text, TouchableOpacity, View, KeyboardAvo
 import { useFonts } from 'expo-font';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-//import Multidao from "../../assets/images/unsplash_6liebVeAfrY.png";
-//import Seta from "../../assets/images/Vector.png";
 import Seta2 from "../src/assets/images/arrowLeft.png";
-//import Logo from "../../assets/images/eventerLogorsz.png";
-//import Bola from "../../assets/images/Rectangle 21.png";
 import GLogo from "../src/assets/images/googlelogo.png";
 import { auth } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-//import GButt from "./assets/goobutt.png";
-//import Reg from "./assets/Group 27.png";
 
 
 export default function Login({ navigation }) {
@@ -56,7 +50,7 @@ export default function Login({ navigation }) {
           <View  style={styles.btnArrow}>
             <Image source = {Seta2} style={styles.btnArrowImg}/>
           </View>  
-            <Text style={styles.txtLoginBtn}> Login</Text>
+            <Text style={[styles.txtLoginBtn, {marginLeft: responsiveWidth(3)}]}>Login</Text>
       </TouchableOpacity>
 
 
@@ -74,14 +68,14 @@ export default function Login({ navigation }) {
         <View style={styles.userData}>
 
           <View style={styles.Name}>
-            <Text style={styles.userNamePassword}>Endereço de Email</Text>
+            <Text style={styles.userNamePassword}>E-mail adress:</Text>
             <TextInput placeholder=''  style = {styles.userInput }
               value={email}
               onChangeText={value => setEmail(value)}/>
           </View>
 
           <View style={styles.Password}>
-            <Text style={styles.userNamePassword}>Palavra-Passe</Text>
+            <Text style={styles.userNamePassword}>Password:</Text>
             <TextInput placeholder='' style = {styles.userInput}
               value={password}
               onChangeText={value => setPassword(value)}
@@ -101,8 +95,8 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.regisBtn} onPress={() => navigation.navigate("Regist")}>
-            <Text style={styles.regisBtnTxt}>Ainda não tens conta? </Text>
-            <Text style={styles.regisBtnLink}>Regista-te</Text>
+            <Text style={styles.regisBtnTxt}>Don't have an account? </Text>
+            <Text style={styles.regisBtnLink}>Register</Text>
           </TouchableOpacity>
         </View>
 
@@ -126,7 +120,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(25),
     flexDirection: "row",
     alignItems: "center",
-    //backgroundColor: 'black',
+
   },
 
   btnArrow: {
@@ -136,7 +130,6 @@ const styles = StyleSheet.create({
     width: responsiveWidth(10),
     height: responsiveWidth(10),
     resizeMode: "contain",
-    //borderRadius: '100%',
     borderRadius: 100,
   },
 
@@ -153,7 +146,6 @@ const styles = StyleSheet.create({
     width: responsiveWidth(13),
     height: responsiveWidth(13),
     resizeMode: "contain",
-    //borderRadius: '100%',
     borderRadius: 100,
     transform: [{ rotate: '180deg' }],
   },
@@ -168,7 +160,6 @@ const styles = StyleSheet.create({
 
   loginContent: {
     flex: 1,
-    //backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -194,7 +185,6 @@ const styles = StyleSheet.create({
 
 
   userData: {
-    //backgroundColor: 'gray',
     flex: 1,
     width: responsiveHeight(33),
   },
@@ -240,7 +230,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: responsiveHeight(3.5),
-    //borderRadius: responsiveWidth(4)
     borderRadius: 100,
     flexDirection: 'row',
   },

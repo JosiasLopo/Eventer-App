@@ -27,8 +27,8 @@ export default function ListaNotas() {
     <View style={[styles.container,{paddingBottom: insets.bottom - 10}]}>
 
         <View style={[styles.header,{paddingTop: insets.top}]}>
-            <Text style={styles.title}>Notas</Text>
-            <Text style={styles.description}>Imagina e escreve...</Text>
+            <Text style={styles.title}>Notes</Text>
+            <Text style={styles.description}>Imagine and write...</Text>
         </View>
 
       <FlatList

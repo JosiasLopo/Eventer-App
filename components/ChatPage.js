@@ -152,15 +152,15 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 8,
         marginVertical: 5,
-        maxWidth: '80%', // Limit message width
+        maxWidth: '80%', 
     },
     myMessage: {
-        alignSelf: 'flex-end', // Align right
-        backgroundColor: '#1563FF', // Light blue for your messages 
+        alignSelf: 'flex-end', 
+        backgroundColor: '#1563FF', 
     },
     otherMessage: {
-        alignSelf: 'flex-start', // Align left
-        backgroundColor: '#e8e8e8' // Light gray for others' messages
+        alignSelf: 'flex-start',
+        backgroundColor: '#e8e8e8'
     },
     inputContainer: {
         flexDirection: 'row',
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     sendButton: {
-        color: '#007bff', //  Standard blue for send button
+        color: '#007bff', 
         fontSize: 16,
     },
 
     timestamp: {
         fontSize: responsiveFontSize(1.3),
         fontStyle: 'italic',
-        color: 'black', // Light gray color
+        color: 'black', 
         marginTop: 5,
         alignSelf: 'flex-end'
     },

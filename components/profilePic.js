@@ -11,14 +11,14 @@ const ProfileScreen = () => {
   const auth = getAuth();
 
   useEffect(() => {
-    // Get the current user
+    
     const currentUser = auth.currentUser;
     if (currentUser) {
       const uid = currentUser.uid;
       const storage = getStorage(firebase);
       const storageRef = ref(storage, `profilePic/${uid}/profilePic`);
 
-      // Function to fetch the profile picture URL
+      
       const fetchProfilePic = () => {
         getDownloadURL(storageRef)
           .then(url => {
@@ -29,13 +29,13 @@ const ProfileScreen = () => {
           });
       };
 
-      // Fetch profile picture initially
+      
       fetchProfilePic();
 
-      // Check for profile picture updates periodically (every minute in this example)
+      
       const interval = setInterval(fetchProfilePic, 10000);
 
-      // Clear interval on component unmount
+      
       return () => clearInterval(interval);
     }
   }, []);
